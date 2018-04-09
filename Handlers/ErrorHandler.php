@@ -42,13 +42,4 @@ class ErrorHandler
             "Message" => "The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible."
         );
     }
-
-    public static function logException($ex){
-
-    }
-
-    public static function handleError($code, $message){
-
-    }
-
 }
