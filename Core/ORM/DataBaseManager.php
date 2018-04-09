@@ -8,7 +8,7 @@ use \mysqli;
  * Setup's a connection to the database
  *
  */
-class DataMappingManager
+class DataBaseManager
 {
     public static $connection;
 
@@ -22,7 +22,6 @@ class DataMappingManager
      */
     public static function initializeMapper($conn = null)
     {
-        echo "init";
         if($conn == null) {
             // Connect to the database using mysqli
             $conn = new mysqli($GLOBALS["tachyon_config"]["mysql_hostname"], $GLOBALS["tachyon_config"]["mysql_username"], $GLOBALS["tachyon_config"]["mysql_password"], $GLOBALS["tachyon_config"]["mysql_database"]);
