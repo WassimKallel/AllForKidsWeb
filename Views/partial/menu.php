@@ -17,7 +17,7 @@
                                     <a class="visible-xs logo" href="#"> <img src="assets/img/logo/logo.png" alt="Baby Store"> </a>
                                 </div>                           
                                 <div class="collapse navbar-collapse no-padding" id="bs-example-navbar-collapse-1">
-                                    <ul class="nav navbar-nav">
+                                    <!-- <ul class="nav navbar-nav">
                                         <li><a href="#"> <span class="fa fa-heart"></span> Wishlist</a></li>
                                         <li><a href="#"> <span class="fa fa-random"></span> Compare</a></li>
                                         <li class="dropdown">
@@ -26,8 +26,8 @@
                                                 <li><a href="#">English</a></li>
                                                 <li><a href="#">Dutch</a></li>
                                                 <li><a href="#">French</a></li>
-                                            </ul>
-                                        </li>
+                                            </ul> -->
+                                        <!-- </li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >USD <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
@@ -36,7 +36,7 @@
                                                 <li><a href="#">EURO</a></li>                                            
                                             </ul>
                                         </li>
-                                    </ul>
+                                    </ul> -->
 
                                     <ul class="nav navbar-nav pull-right">
                                         <li class="dropdown ">
@@ -64,7 +64,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >My Account <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                             <?php if ($GLOBALS["AuthController"]::$is_logged_in)  {?>
-                                                <li><a href="my-account.html">Profile (<?=  $GLOBALS["AuthController"]::getCurrentUser()->getFullName() ?>)</a></li>
+                                                <li><a href="profile">Profile (<?=  $GLOBALS["AuthController"]::getCurrentUser()->getFullName() ?>)</a></li>
                                                 <li><a href="logout">Logout</a></li>
                                                 <?php } else {
                                                     ?>
@@ -200,9 +200,9 @@
                                 </div>
                                 <div class="collapse navbar-collapse no-padding" id="product-menu">
                                     <ul class="nav navbar-nav">
-                                        <li><a href="#">Baby Clothes</a></li>
+         
                                         <li class="dropdown mega-dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kids Cloth <span class="caret"></span></a>				
+                                           			
                                             <div class="dropdown-menu mega-dropdown-menu">
                                                 <div class="">
                                                     <!-- Nav tabs -->

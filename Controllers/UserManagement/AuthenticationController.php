@@ -20,6 +20,9 @@ class AuthenticationController {
     public function __construct() {
         
     }
+    public static function reloadCurrentUser() {
+        AuthenticationController::$current_user = User::retrieveByPk(AuthenticationController::$current_user->id);
+    }
     public static function restricted() {
         if (!AuthenticationController::$is_logged_in) {
             header("Location: login");
@@ -59,22 +62,21 @@ class AuthenticationController {
         UserSession::deleteByField("user_id",AuthenticationController::$current_user->id);
         
     }
+    public static function hash_password($password) {
+        return hash('sha256' , $password);
+    }
 
-    /**
-     *
-     */
     public function login($username, $password) {
-        $password = hash('sha256', $password);
+        $password = AuthenticationController::hash_password($password);
         $user = User::sql("SELECT * FROM :table WHERE username=? AND password=?",array($username,$password));
         if(!empty($user)) {
-            var_dump("dqsd");
             $token = $this->generateRandomString();
             $this->saveNewSession($user[0]->id,$token);
             return True;
         }
         return False;
     }
-    private function saveNewSession($uid,$token) {
+    private static function saveNewSession($uid,$token) {
         $_SESSION["token"] = $token;
         $_SESSION["uid"] = $uid;
         UserSession::deleteByField("user_id",$uid);

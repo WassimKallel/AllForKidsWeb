@@ -50,9 +50,7 @@
                 <div class="row">
                     <!-- Posts Start -->
                     <aside class="col-md-12 col-sm-8 space-bottom-20">
-                    <?php if (isset($error)) {
-
-                     ?>
+                    <?php if (isset($error)) { ?>
                     <div class="alert alert-danger" role="alert">
                        <?= $error ?>
                         </div>
