@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS["tachyon_config"] = array();
+$GLOBALS["AllForKids"] = array();
 
 	/**
 	* Configuration file
@@ -8,16 +8,15 @@ $GLOBALS["tachyon_config"] = array();
 	* This should be the only file you need to edit in, regarding the original script.
 	* Please provide your MySQL login information below.
 	*/
-$GLOBALS["tachyon_config"]["mysql_hostname"] = "localhost";
-$GLOBALS["tachyon_config"]["mysql_username"] = "root";
-$GLOBALS["tachyon_config"]["mysql_password"] = "";
-$GLOBALS["tachyon_config"]["mysql_database"] = "esprit";
-$GLOBALS["tachyon_config"]["platform_directory"] = "/AllForKidsWeb/";
-$GLOBALS["tachyon_config"]["platform_host"] = "localhost";
-$GLOBALS["tachyon_config"]["session_name"] = "GMCP";
-$GLOBALS["tachyon_config"]["data_directory"] = "/AllForKidsWeb/data/";
-$GLOBALS["tachyon_config"]["protocol"] = "http";
-$GLOBALS["tachyon_config"]["data_url"] = $GLOBALS["tachyon_config"]["protocol"]."://".$GLOBALS["tachyon_config"]["platform_host"] .$GLOBALS["tachyon_config"]["data_directory"];
-$GLOBALS["tachyon_config"]["home_url"] = $GLOBALS["tachyon_config"]["protocol"]."://".$GLOBALS["tachyon_config"]["platform_host"].$GLOBALS["tachyon_config"]["platform_directory"];
+$GLOBALS["AllForKids"]["mysql_hostname"] = "localhost";
+$GLOBALS["AllForKids"]["mysql_username"] = "root";
+$GLOBALS["AllForKids"]["mysql_password"] = "";
+$GLOBALS["AllForKids"]["mysql_database"] = "esprit";
+$GLOBALS["AllForKids"]["platform_directory"] = "/AllForKidsWeb/";
+$GLOBALS["AllForKids"]["platform_host"] = "localhost";
+$GLOBALS["AllForKids"]["data_directory"] = "/AllForKidsWeb/data/";
+$GLOBALS["AllForKids"]["protocol"] = "http";
+$GLOBALS["AllForKids"]["data_url"] = $GLOBALS["AllForKids"]["protocol"]."://".$GLOBALS["AllForKids"]["platform_host"] .$GLOBALS["AllForKids"]["data_directory"];
+$GLOBALS["AllForKids"]["home_url"] = $GLOBALS["AllForKids"]["protocol"]."://".$GLOBALS["AllForKids"]["platform_host"].$GLOBALS["AllForKids"]["platform_directory"];
 
 

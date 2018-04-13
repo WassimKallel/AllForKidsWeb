@@ -24,13 +24,13 @@ class DataBaseManager
     {
         if($conn == null) {
             // Connect to the database using mysqli
-            $conn = new mysqli($GLOBALS["tachyon_config"]["mysql_hostname"], $GLOBALS["tachyon_config"]["mysql_username"], $GLOBALS["tachyon_config"]["mysql_password"], $GLOBALS["tachyon_config"]["mysql_database"]);
+            $conn = new mysqli($GLOBALS["AllForKids"]["mysql_hostname"], $GLOBALS["AllForKids"]["mysql_username"], $GLOBALS["AllForKids"]["mysql_password"], $GLOBALS["AllForKids"]["mysql_database"]);
             if( $conn->connect_error )
                 throw new Exception("MySQL connection could not be established: ".$conn->connect_error);
         }
         self::$connection = $conn;
 
-        Model::useConnection($conn, $GLOBALS["tachyon_config"]["mysql_database"]);
+        Model::useConnection($conn, $GLOBALS["AllForKids"]["mysql_database"]);
 
     }
     
