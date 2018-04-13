@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteBase /AllForKidsWeb/
+
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*)$ index.php?page=$1&%{QUERY_STRING} [NC,L]
