@@ -13,8 +13,10 @@ class User extends Model {
     public $email;
     public $password;
     public $is_customer;
+
+
     public function getFullName() {
-        return $this->FirstName . ' ' . $this->LastName;
+        return $this->first_name . ' ' . $this->last_name;
     }
 }
 

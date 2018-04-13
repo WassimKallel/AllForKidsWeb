@@ -1,6 +1,7 @@
 <?php 
 
  
+use \Core\ORM\Model;
 class UserSession extends Model {
 
     protected static  $table = 'user_sessions';
