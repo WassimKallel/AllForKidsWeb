@@ -45,7 +45,7 @@
         }
         return false;
         }
-        private function checkUsername($username) {
+        public static function checkUsername($username) {
             return !empty(User::retrieveByField("username",$username));
             
         }
