@@ -11,6 +11,7 @@
             }
             else {
                AuthenticationController::getInstance()->login($_POST["username"], $_POST["password"]);    
+               header("Location: .");
             }
         }
         
@@ -65,22 +66,22 @@
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                             <label class="form-label"> First Name</label>
-                                            <input type="text" name="first_name" class="form-control"  placeholder="Email" required=""></div>
+                                            <input type="text" name="first_name" class="form-control"  placeholder="First Name" required=""></div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                         
                                             <div class="form-group">
                                             <label class="form-label"> Last Name</label>
-                                            <input type="text" name="last_name" class="form-control"  required=""></div>
+                                            <input type="text" name="last_name" class="form-control"  placeholder="Last Name" required=""></div>
                                         </div>  
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                             <label class="form-label"> Email</label>
-                                            <input type="email" name="email"  class="form-control" required=""></div>
+                                            <input type="email" name="email" placeholder="Email" class="form-control" required=""></div>
                                         </div>  
                                         <div class="col-md-12 col-sm-12">
                                             <label class="pink-btn btn">
-                                                <input type="submit" value="Update" name="register_submit" >
+                                                <input type="submit" value="Register" name="register_submit" >
                                             </label>                                            
                                         </div>
                                     </div>
