@@ -1,7 +1,10 @@
 <?php
 class Comment {
-    public $id, $user_id, $content, $post_id, $creation_date;
-
+	public $id;
+	public $user_id;
+	public $content;
+	public $post_id;
+	public $creation_date;
 
     function __construct($id, $user_id, $content, $post_id, $creation_date){
 			$this->id=$id;

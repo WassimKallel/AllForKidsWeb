@@ -1,6 +1,10 @@
 <?php
 class Post {
-    public $id, $content, $user_id, $thead_id, $creation_date;
+	public $id;
+	public $content;
+	public $user_id;
+	public $thead_id;
+	public $creation_date;
 
     function __construct($id, $content, $user_id, $thead_id, $creation_date){
 			$this->id=$id;
