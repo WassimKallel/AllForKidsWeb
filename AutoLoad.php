@@ -6,6 +6,7 @@ define("ROOT_DIR", dirname(__FILE__));
 define("VIEWS", dirname(__FILE__). "/Views");
 define("CONTROLLERS", dirname(__FILE__). "/Controllers");
 define("MODELS", dirname(__FILE__). "/Models");
+define("HOME_DIR", "/AllForKidsWeb");
 include "Config/Init.inc.php";
 // initialize 
 DataBaseManager::initializeMapper();

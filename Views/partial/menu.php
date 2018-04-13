@@ -17,49 +17,14 @@
                                     <a class="visible-xs logo" href="#"> <img src="assets/img/logo/logo.png" alt="Baby Store"> </a>
                                 </div>                           
                                 <div class="collapse navbar-collapse no-padding" id="bs-example-navbar-collapse-1">
-                                    <!-- <ul class="nav navbar-nav">
-                                        <li><a href="#"> <span class="fa fa-heart"></span> Wishlist</a></li>
-                                        <li><a href="#"> <span class="fa fa-random"></span> Compare</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >English <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">English</a></li>
-                                                <li><a href="#">Dutch</a></li>
-                                                <li><a href="#">French</a></li>
-                                            </ul> -->
-                                        <!-- </li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >USD <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">POUND</a></li>
-                                                <li><a href="#">USD</a></li>
-                                                <li><a href="#">EURO</a></li>                                            
-                                            </ul>
-                                        </li>
-                                    </ul> -->
-
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="#"> <span class="fa fa-phone"></span> Call us : 5555555555</a></li>
+                                    </ul>
                                     <ul class="nav navbar-nav pull-right">
-                                        <li class="dropdown ">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Home <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="index-2.html">Homepage 1</a></li>
-                                                <li><a href="index-2-box-version.html">Homepage 2</a></li>
-                                                <li><a href="index-3.html">Homepage 3</a></li>
-                                                <li><a href="index-4.html">Homepage 4</a></li>                                                    <li><a href="index-5.html">Homepage 5</a></li>                                                    <li><a href="index-6.html">Homepage 6</a></li>                                                    <li><a href="index-7.html">Homepage 7</a></li>                                                                                     
-                                            </ul>
-                                        </li>                                       
-                                        <li><a href="contact-us.html">Contact Us</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Blog <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                                <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                                <li><a href="single-post-right-sidebar.html">Single Post Right Sidebar</a></li>
-                                                <li><a href="single-post-left-sidebar.html">Single Post Left Sidebar</a></li>                                            
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Track Order</a></li>
-                                       
+                                        <li><a href="<?= HOME_DIR ?>">Home</a></li>
+                                        <li><a href="contact">Contact Us</a></li>
+                                        <li><a href="blog">Blog</a></li>
+                                        <li><a href="forum">Forum</a></li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >My Account <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
