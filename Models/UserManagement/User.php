@@ -4,7 +4,7 @@ use \Core\ORM\Model;
 
 class User extends Model {
     // Updating UserManagement Controllers is required when editing the User Model.
-    protected static $table= "Users";
+    protected static $table= "users";
     public $id;
     public $username;
     public $role = 0;

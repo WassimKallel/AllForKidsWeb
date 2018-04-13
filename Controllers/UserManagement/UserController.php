@@ -11,6 +11,9 @@
                 isset($post_data["first_name"]) &&
                 isset($post_data["last_name"]) &&
                 isset($post_data["email"])) {
+                if(checkUsername($post_data["username"])) {
+                    return False;
+                }
                 $current_user->username = $post_data["username"];
                 $current_user->password = AuthenticationController::hash_password($post_data["password"]);
                 $current_user->first_name = $post_data["first_name"];
@@ -19,7 +22,7 @@
                 $current_user->save();
                 return true;
             }
-            return true;
+            return false;
         }
         public static function register($post_data) {
             if (isset($post_data["username"]) &&
@@ -27,6 +30,9 @@
             isset($post_data["first_name"]) &&
             isset($post_data["last_name"]) &&
             isset($post_data["email"])) {
+            if(checkUsername($post_data["username"])) {
+                return False;
+            }
             $user = new User();
             $user->username = $post_data["username"];
             $user->password = AuthenticationController::hash_password($post_data["password"]);
@@ -37,8 +43,10 @@
             $user->save();
             return true;
         }
-        return true;
+        return false;
         }
         private function checkUsername($username) {
+            return !empty(User::retrieveByField("username",$username));
+            
         }
     }
