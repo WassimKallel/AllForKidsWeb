@@ -8,6 +8,7 @@ define("CONTROLLERS", dirname(__FILE__). "/Controllers");
 define("MODELS", dirname(__FILE__). "/Models");
 define("HOME_DIR", "/AllForKidsWeb");
 include "Config/Init.inc.php";
+include "Core/PrettyDateTime.php";
 // initialize 
 DataBaseManager::initializeMapper();
 // User Management Initialization 

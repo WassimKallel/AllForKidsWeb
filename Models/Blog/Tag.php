@@ -1,11 +1,12 @@
 <?php
-class Tag {
+
+use \Core\ORM\Model;
+
+class Tag extends Model{
+
+    protected static $table= "tag";
+
     public $id;
     public $name;
-
-    function __construct($id, $name){
-			$this->id=$id;
-			$this->name=$name;
-    }
 }
 
