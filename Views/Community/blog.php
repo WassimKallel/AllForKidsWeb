@@ -2,6 +2,8 @@
 <?php 
 include_once CONTROLLERS . "/BlogManagement/BlogController.php" ; 
 
+$most_used_tags = BlogController::getMostUsedTags();
+
 if(isset($_GET['p']) && $_GET['p'] > 0) {
     $current_page = $_GET['p'];
     $offset = ($_GET['p'] - 1) * BlogController::$limit;
@@ -10,9 +12,29 @@ if(isset($_GET['p']) && $_GET['p'] > 0) {
     $offset = 0;
 }
 $limit = BlogController::$limit;
-$posts = BlogController::getPosts($offset);
-if(count($posts) == 0) {
-    header('Location: ' . ERROR . 404);
+
+
+if(isset($_GET['tag']) && !empty($_GET['tag'])) {
+    // try {
+        $postsToShowCount = BlogController::getPostsByTagCount($_GET['tag']);
+        $posts = BlogController::getPostsByTag($_GET['tag'], $offset);
+    // } catch(Exception $e) {
+    //     header('Location: ' . ERROR . 404);
+    // }
+} 
+else if(isset($_GET['search']) && !empty($_GET['search'])) {
+    $postsToShowCount = BlogController::searchPostsCount($_GET['search']);
+    $posts = BlogController::searchPosts($_GET['search'], $offset);
+    if(count($posts) == 0) {
+        // TO DO CHANGE IT TO A MESSAGE
+        header('Location: ' . ERROR . 404);
+    }
+} else {
+    $postsToShowCount = BlogController::countAllPosts();
+    $posts = BlogController::getPosts($offset);
+    if(count($posts) == 0) {
+        header('Location: ' . ERROR . 404);
+    }
 }
 ?>
 
@@ -70,7 +92,7 @@ if(count($posts) == 0) {
                                         </div>                                           
                                     </div>
                                     <div class="blog-content">
-                                        <a class="post-title" href="blog-single.html">
+                                        <a class="post-title" href="blog_post?id=<?= $post->id ?>">
                                         <?= $post->title ?>                                    
                                         </a>
                                         <ul class="post-meta">
@@ -94,9 +116,6 @@ if(count($posts) == 0) {
                                        
                                         <hr class="fullwidth-divider">
                                         <div class="post-detail">
-                                            <!-- <p>
-                                            <?= $post->content ?>
-                                            </p> -->
                                         </div>
                                         
                                     </div>
@@ -107,7 +126,7 @@ if(count($posts) == 0) {
 
                                 <div class="light-bg sorter">
                                     <div class="col-md-6 col-sm-12 show-items">                
-                                        <span>Showing Items : <?= $offset + 1 ?>  to <?= $offset + count($posts) ?> total <?= BlogController::countAllPosts(); ?></span>
+                                        <span>Showing Items : <?= $offset + 1 ?>  to <?= $offset + count($posts) ?> total <?= $postsToShowCount ?></span>
                                     </div>
                                     <style> 
                                     .pagination-list > li.active > a{
@@ -126,7 +145,7 @@ if(count($posts) == 0) {
                                                     </li>
                                                 
                                                     <?php
-                                                        for ($i=1; $i <= ceil(BlogController::countAllPosts() / $limit) ; $i++) { 
+                                                        for ($i=1; $i <= ceil($postsToShowCount / $limit) ; $i++) { 
                                                     ?>
                                                         <li <?= $current_page == $i ? 'class="active"' : '' ?> > 
                                                             <a <?= $current_page == $i ? '' : 'href="?p='. $i .'"' ?> > <?= $i ?> </a>
@@ -136,7 +155,7 @@ if(count($posts) == 0) {
                                                     ?>
                                                     <li class="nxt"> 
                                                         <a <?= 
-                                                        intval($current_page) === intval(ceil(BlogController::countAllPosts() / $limit)) 
+                                                        intval($current_page) === intval(ceil($postsToShowCount / $limit)) 
                                                         ? '' : 'href="?p='. (int)($current_page + 1) .'"' ?>> 
                                                             <i class="fa fa-angle-right"></i> 
                                                         </a> 
@@ -153,66 +172,28 @@ if(count($posts) == 0) {
                         <!-- Sidebar Start -->
                         <aside class="col-md-4 col-sm-4">
                             <div class="blog-sidebar-widget light-bg default-box-shadow">
-                                <h4 class="widget-title green-bg"><span> Search Widget </span></h4>
+                                <h4 class="widget-title green-bg"><span> Search </span></h4>
                                 <div class="blog-widget-content">
-                                    <form class="search-form" action="#">
+                                    <form class="search-form" action="blog">
                                         <label>
                                             <span class="screen-reader-text">Search for:</span>
-                                            <input type="search" class="search-field" placeholder="Type Keyword" value="" name="s" title="Search for:">
+                                            <input type="search" class="search-field" placeholder="Type Keyword" value="" name="search" title="Search for:">
                                         </label>
                                         <input type="submit" class="search-submit" value="Search">
                                     </form>
                                 </div>
                             </div>
+                            
                             <div class="blog-sidebar-widget light-bg default-box-shadow">
-                                <h4 class="widget-title blue-bg"> <span> Latest Post </span> </h4>
-                                <div class="blog-widget-content widget-latest-post">
-                                    <ul>
-                                        <li>
-                                            <div class="post-img">
-                                                <a href="#"> <img src="assets/img/blog/blog-widget-1.png" alt="//"> </a>
-                                            </div>
-                                            <div class="post-info">
-                                                <p>Phasellus rhoncus quis nunc tae dapibus. Integer vehicula urna  nisl ullamcorper.</p>
-                                                <span class="blue-color"><i class="fa fa-clock-o"></i><strong>6 Days Ago</strong> </span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-img">
-                                                <a href="#"> <img src="assets/img/blog/blog-widget-2.png" alt="//"> </a>
-                                            </div>
-                                            <div class="post-info">
-                                                <p>Phasellus rhoncus quis nunc tae dapibus. Integer vehicula urna  nisl ullamcorper.</p>
-                                                <span class="blue-color"><i class="fa fa-clock-o"></i><strong>6 Days Ago</strong> </span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-img">
-                                                <a href="#"> <img src="assets/img/blog/blog-widget-3.png" alt="//"> </a>
-                                            </div>
-                                            <div class="post-info">
-                                                <p>Phasellus rhoncus quis nunc tae dapibus. Integer vehicula urna  nisl ullamcorper.</p>
-                                                <span class="blue-color"><i class="fa fa-clock-o"></i><strong>6 Days Ago</strong> </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="blog-sidebar-widget light-bg default-box-shadow">
-                                <h4 class="widget-title purple-bg"> <span> Tag Widget </span> </h4>
+                                <h4 class="widget-title purple-bg"> <span> Tags </span> </h4>
                                 <div class="blog-widget-content tagcloud">
-                                    <a href="#"> children </a>
-                                    <a href="#"> baby </a>
-                                    <a href="#"> wootheme </a>
-                                    <a href="#"> kids </a>
-                                    <a href="#"> shop </a>
-                                    <a href="#"> Woo Commerce </a>
-                                    <a href="#"> kidstore </a>
-                                    <a href="#"> shopping </a>
-                                    <a href="#"> dress </a>
-                                    <a href="#"> girls </a>
-                                    <a href="#"> boys </a>
-                                    <a href="#"> all </a>
+                                    <?php 
+                                        foreach ($most_used_tags as $tag) {
+                                    ?>
+                                    <a href="?tag=<?= $tag->id ?>"> <?= $tag->name ?> </a>
+                                    <?php 
+                                        }
+                                    ?>
                                 </div>
                             </div>
                             <div class="blog-sidebar-widget light-bg default-box-shadow">

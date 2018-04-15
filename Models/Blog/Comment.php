@@ -11,6 +11,5 @@ class Comment extends Model {
 	public $post_id;
 	public $creation_date;
 
-
 }
 

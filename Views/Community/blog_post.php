@@ -1,10 +1,15 @@
 <?php include VIEWS . "/partial/header.php" ; ?>
 <?php 
 include_once CONTROLLERS . "/BlogManagement/BlogController.php" ; 
+
 try {
-    $post = BlogController::getPost($_GET['id']);
+  $post = BlogController::getPost($_GET['id']);
 } catch(exception $e) {
-    header('Location: ' . ERROR . 404);
+  header('Location: ' . ERROR . 404);
+}
+
+if(!empty($_POST)) {
+  BlogController::saveComment($_POST, $post);
 }
 
 $comments = BlogController::getComments($post);
@@ -100,28 +105,18 @@ $comments = BlogController::getComments($post);
             <?php
                 }
             ?>
-            <form method="post" action="/blogs/news/standard-blog-post-1/comments#comment_form" id="comment_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
+            <form method="post" action="blog_post?id=<?= $_GET['id'] ?>" id="comment_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
                 <div class="comment-respond" id="respond">
                 <h3 class="comment-reply-title" id="reply-title">
                     <span class="italic-font">Leave a comment</span>
                 </h3>
                 
                 <div class="comment-form row">
-                    <div class="col-md-6">                                        
-                    <p class="comment-form-author">
-                        <label >Name <span class="required">*</span></label>
-                        <input value="" type="text"  size="30"  name="comment[author]" id="CommentAuthor"  required="required" placeholder="Name *" class="">
-                    </p>
-                    <p class="comment-form-email">
-                        <label >Email <span class="required">*</span></label> 
-                        <input value="" type="email"  size="30"  name="comment[email]" required="required" id="CommentEmail"  placeholder="Email Id *" class="">
-                    </p>
-                    
-                    </div>
-                    <div class="col-md-6">   
+
+                    <div class="col-md-12">   
                     <p class="comment-form-comment">
                         <label>Message</label> 
-                        <textarea  rows="5" cols="45" name="comment[body]" class="" id="CommentBody" placeholder="Comment Text"></textarea>
+                        <textarea  rows="5" cols="45" name="comment" class="" id="CommentBody" placeholder="Comment Text"></textarea>
                     </p>
                     </div>
                     
