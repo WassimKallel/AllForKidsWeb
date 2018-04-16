@@ -72,4 +72,23 @@ class BlogController {
         $tagPosts = PostTag::sql('SELECT post_id FROM :table WHERE tag_id = ?', array($tag_id));
         return count($tagPosts);
     }
+
+    public static function getLatestMonths() {
+        $posts = Post::sql('SELECT creation_date FROM :table WHERE creation_date > curdate() - interval (dayofmonth(curdate()) - 1) day - interval 6 month ORDER BY 1 ASC');
+        $dates = [];
+        foreach ($posts as $post) {
+            $date = new DateTime($post->creation_date);
+            $fomatted_date = $date->format('F') . ' ' . $date->format('Y');
+            if(!in_array($fomatted_date, $dates)) {
+                array_push($dates, $fomatted_date);
+            }
+        }
+        return $dates;
+    }
+
+    public static function getPostsOfMonth($month, $limit, $offset=0) {
+    //     $date = new DateTime::createFromFormat("F Y", $month);
+    //     var_dump($date);
+    //     return Post::sql('SELECT * FROM :table');
+    // }
 }

@@ -5,7 +5,6 @@
         $_AuthenticationController = new AuthenticationController();
         $is_valid_login = $_AuthenticationController->login($_POST["username"], $_POST["password"]); 
         if ($is_valid_login) {
-            var_dump($is_valid_login);
             AuthenticationController::$current_user = User::retrieveByField("username",$POST["username"]);
             AuthenticationController::$is_logged_in = True;
         } else {

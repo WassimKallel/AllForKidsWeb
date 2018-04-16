@@ -4459,6 +4459,18 @@ button.close-btn:hover,button.close-btn:focus {
 ********************************/
 
 
+.post-avatar {
+    width: 120px;
+}
 
+.forum-post-meta {
+    margin-top : 30px;
+    font-size: 0.8em;
+}
 
-
+.forum-user-name {
+    font-weight: bold;
+}
+.forum-role {
+    font-size: 0.9em;
+}

@@ -1,7 +1,19 @@
 <?php include VIEWS . "/partial/header.php" ; ?>
 <?php 
 include_once CONTROLLERS . "/ForumManagement/ForumController.php" ; 
-$topics = ForumController::getAllTopics();
+
+if(isset($_GET['p']) && $_GET['p'] > 0) {
+    $current_page = $_GET['p'];
+    $offset = ($_GET['p'] - 1) * BlogController::$limit;
+} else {
+    $current_page = 1;
+    $offset = 0;
+}
+
+$limit = ForumController::$limit;
+$topics = ForumController::getAllTopics($limit, $offset);
+
+$allTopicsCount = ForumController::countAllTopics();
 ?>
 
 <?php include VIEWS . '/partial/header.php'; ?>
@@ -24,7 +36,7 @@ $topics = ForumController::getAllTopics();
                         <h3 class="sub-title"> <?php if (AuthenticationController::$is_logged_in) {
                             echo "Welcome To our Forum: " .   AuthenticationController::getCurrentUser()->getFullName(); 
                         } else {
-                            ?> Latest News <?php
+                            ?> Forum <?php
                         } ?>
                         </h3>
                         <hr class="dash-divider">
@@ -55,7 +67,8 @@ $topics = ForumController::getAllTopics();
                                         ?>
                                         <tr>
                                             <td class="description">
-                                                <a href="topic?id=<?= $topic->id ?>" > <?= $topic->name ?></a>                                          
+                                                <a href="topic?id=<?= $topic->id ?>" > <?= $topic->name ?></a>    
+                                                <p> <?= ForumController::countAllThreadsOfTopic($topic) ?> Threads </p>                                      
                                             </td>
                                         </tr>
                                         <?php 
@@ -63,13 +76,54 @@ $topics = ForumController::getAllTopics();
                                         ?>
                                     </tbody>                               
                                 </table>
-                                <div class="continue-shopping">
-                                    <div class="shp-btn">
-                                        <a class="pink-btn btn" href="#"> Back To Main Menu</a>
-                                    </div>                               
+                                <div class="light-bg sorter">
+                                <div class="col-md-4 col-sm-12">
+                                        <div class="shp-btn">
+                                            <a class="pink-btn btn" href="#"> Back To Main Menu </a>
+                                        </div>                               
+                                    </div>
+                                    <style> 
+                                        .pagination-list > li.active > a{
+                                            color: white;
+                                        }
+                                    </style>
+                                    <div class="col-md-4 col-sm-12 bottom-pagination text-center">                                                                
+                                        <div class="inline-block">
+                                            <div class="pagination-wrapper">
+                                                <ul class="pagination-list">
+
+                                                    <li class="prev"> 
+                                                        <a <?= $current_page == 1 ? '' : 'href="?p='. (int)($current_page - 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-left"></i> 
+                                                        </a> 
+                                                    </li>
+                                                
+                                                    <?php
+                                                        for ($i=1; $i <= ceil($allTopicsCount / $limit) ; $i++) { 
+                                                    ?>
+                                                        <li <?= $current_page == $i ? 'class="active"' : '' ?> > 
+                                                            <a <?= $current_page == $i ? '' : 'href="?p='. $i .'"' ?> > <?= $i ?> </a>
+                                                        </li>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                    <li class="nxt"> 
+                                                        <a <?= 
+                                                        intval($current_page) === intval(ceil($allTopicsCount / $limit)) 
+                                                        ? '' : 'href="?p='. (int)($current_page + 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-right"></i> 
+                                                        </a> 
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 show-items">                
+                                        <div class="pull-right">Showing Items : <?= $offset + 1 ?>  to <?= $offset + count($topics) ?> total <?= $allTopicsCount ?></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>                                                    
+                        </div>                                                  
                     </aside>
                     <!-- Posts Ends -->                
                 </div>
