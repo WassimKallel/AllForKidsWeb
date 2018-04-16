@@ -20,6 +20,16 @@ class RoleController
             header("Location: " . $GLOBALS["AllForKids"]["platform_directory"] . "error?error=403");
         }
     }
+    public static function adminAccessGrantedWithLocalRedirection()
+    {
+        if (AuthenticationController::$is_logged_in &&
+                AuthenticationController::getCurrentUser() &&
+                AuthenticationController::getCurrentUser()->role > Roles::User) {
+            return true;
+        } else {
+            header("Location: error?error=403");
+        }
+    }
     public static function adminAccessGranted() {
         if (    AuthenticationController::$is_logged_in &&
                 AuthenticationController::getCurrentUser() &&
@@ -29,4 +39,5 @@ class RoleController
             return false;
         }   
     }
+    
 }

@@ -11,7 +11,7 @@
                 isset($post_data["first_name"]) &&
                 isset($post_data["last_name"]) &&
                 isset($post_data["email"])) {
-                if(UserController::checkUsername($post_data["username"])) {
+                if(UserController::checkUsername($post_data["username"]) && $post_data["username"] != $current_user->username) {
                     return False;
                 }
                 $current_user->username = $post_data["username"];
