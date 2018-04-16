@@ -1,0 +1,11 @@
+RewriteEngine on
+RewriteBase /AllForKidsWeb/admin
+
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*)$ index.php?page=$1&%{QUERY_STRING} [NC,L]
+
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag  log_errors on

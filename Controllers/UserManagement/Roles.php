@@ -1,7 +1,7 @@
 
 <?php
 use \Core\Enum; 
-class Role extends Enum {
+class Roles extends Enum {
 
     const __default = self::User;
     const User = 0;
