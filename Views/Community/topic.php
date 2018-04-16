@@ -1,7 +1,18 @@
 <?php include VIEWS . "/partial/header.php" ; ?>
 <?php 
 include_once CONTROLLERS . "/ForumManagement/ForumController.php" ; 
-$topics = ForumController::getAllTopics();
+// try {
+    $topic_id = $_GET['id'];
+    $topic = ForumController::getTopicByID($topic_id);
+
+    if(isset($_POST) && !empty($_POST['post-content']) && !empty($_POST['thread-title'])) {
+        ForumController::saveThread($topic, $_POST);
+    }
+    $threads = ForumController::getTopicThreads($topic);
+// } catch(Exception $e) {
+
+// } 
+
 ?>
 
 <?php include VIEWS . '/partial/header.php'; ?>
@@ -29,7 +40,7 @@ $topics = ForumController::getAllTopics();
                         </h3>
                         <hr class="dash-divider">
                         <ol class="breadcrumb breadcrumb-menubar">
-                            <li><a href="#">Home</a>  >  <a href="forum">Forum</a> </li>                             
+                            <li><a href="#">Home</a>  >  <a href="forum">Forum</a>  >  <span class="blue-color"> <?= $topic->name  ?> </span> </li>                             
                         </ol>
                     </div>  
                 </div>
@@ -41,31 +52,47 @@ $topics = ForumController::getAllTopics();
                     <!-- Posts Start -->
                     <aside class="col-md-12 col-sm-12 space-bottom-45">
                         <div class="account-details-wrap">
-                            <div class="title-2 sub-title-small"> ALL TOPICS </div>
+                            <div class="title-2 sub-title-small">  <?= $topic->name ?> </div>
                             <div class="light-bg default-box-shadow">
                                 <table class="product-table">
                                     <thead>
                                         <tr>                             
-                                            <th>Topics</th>                                        
+                                            <th>Threads</th>                                        
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php 
-                                            foreach ($topics as $topic) {
+                                            foreach ($threads as $thread) {
                                         ?>
                                         <tr>
                                             <td class="description">
-                                                <a href="topic?id=<?= $topic->id ?>" > <?= $topic->name ?></a>                                          
+                                                <a href="thread?id=<?= $thread->id ?>" > <?= $thread->title ?></a>                                          
                                             </td>
                                         </tr>
                                         <?php 
                                             }
                                         ?>
+                                        <tr>
+                                            <td class="description">
+                                            
+                                            <form method="post" action="topic?id=<?= $_GET['id'] ?>" id="post_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
+                                                <p class="comment-form-comment">
+                                                    <input type="text" name="thread-title" id="ThreadTitle" class="col-md-12 form-control" placeholder="Thread title" style="margin-bottom:10px;">
+                                                    <textarea  rows="5" cols="60" name="post-content" class="" id="PostBody" placeholder="Post Text" class="form-control"></textarea>
+                                                </p>
+                                                
+                                                <div class="form-submit col-md-12">
+                                                    <button class="blue-btn btn pull-right" type="Submit">Add Thread</button>                                           
+                                                </div>				
+                                            </form>                                             
+                                            </td>
+                                            
+                                        </tr>
                                     </tbody>                               
                                 </table>
                                 <div class="continue-shopping">
                                     <div class="shp-btn">
-                                        <a class="pink-btn btn" href="#"> Back To Main Menu</a>
+                                        <a class="pink-btn btn" href="forum"> Back To Forum</a>
                                     </div>                               
                                 </div>
                             </div>
