@@ -2,6 +2,7 @@
 <?php 
 include_once CONTROLLERS . "/BlogManagement/BlogController.php" ; 
 
+$archive_items = BlogController::getLatestMonths();
 $most_used_tags = BlogController::getMostUsedTags();
 
 if(isset($_GET['p']) && $_GET['p'] > 0) {
@@ -13,14 +14,13 @@ if(isset($_GET['p']) && $_GET['p'] > 0) {
 }
 $limit = BlogController::$limit;
 
-
-if(isset($_GET['tag']) && !empty($_GET['tag'])) {
-    // try {
-        $postsToShowCount = BlogController::getPostsByTagCount($_GET['tag']);
-        $posts = BlogController::getPostsByTag($_GET['tag'], $offset);
-    // } catch(Exception $e) {
-    //     header('Location: ' . ERROR . 404);
-    // }
+if(isset($_GET['archive']) && !empty($_GET['archive'])) {
+    $postsToShowCount = BlogController::getPostsOfMonthCount($_GET['archive']);
+    $posts = BlogController::getPostsOfMonth($_GET['archive'], $limit, $offset);
+} 
+else if(isset($_GET['tag']) && !empty($_GET['tag'])) {
+    $postsToShowCount = BlogController::getPostsByTagCount($_GET['tag']);
+    $posts = BlogController::getPostsByTag($_GET['tag'], $offset);
 } 
 else if(isset($_GET['search']) && !empty($_GET['search'])) {
     $postsToShowCount = BlogController::searchPostsCount($_GET['search']);
@@ -199,13 +199,14 @@ else if(isset($_GET['search']) && !empty($_GET['search'])) {
                             <div class="blog-sidebar-widget light-bg default-box-shadow">
                                 <h4 class="widget-title golden-bg"> <span> Archives </span> </h4>
                                 <div class="blog-widget-content">
-                                    <ul>                                
-                                        <li class="arch-item"> <a href="#">June 2015 </a> </li>
-                                        <li class="arch-item"> <a href="#"> May 2015 </a> </li>
-                                        <li class="arch-item"> <a href="#"> April 2015 </a> </li>
-                                        <li class="arch-item"> <a href="#"> March 2015 </a> </li>
-                                        <li class="arch-item"> <a href="#"> February 2015 </a> </li>
-                                        <li class="arch-item"> <a href="#"> January 2015 </a> </li>                               
+                                    <ul>          
+                                        <?php 
+                                            foreach (array_reverse($archive_items) as $item) {
+                                        ?>                      
+                                        <li class="arch-item"> <a href="?archive=<?= urlencode($item) ?>"> <?= $item ?> </a> </li>  
+                                        <?php 
+                                            }
+                                        ?>                        
                                     </ul>
                                 </div>
                             </div>

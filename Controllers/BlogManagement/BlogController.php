@@ -4,6 +4,7 @@ include_once MODELS . "/Blog/Post.php";
 include_once MODELS . "/Blog/PostTag.php";
 include_once MODELS . "/Blog/Tag.php";
 include_once MODELS . "/UserManagement/User.php";
+use \Core\ORM\Model;
 
 class BlogController {
     public static $limit = 6;
@@ -86,9 +87,17 @@ class BlogController {
         return $dates;
     }
 
-    public static function getPostsOfMonth($month, $limit, $offset=0) {
-    //     $date = new DateTime::createFromFormat("F Y", $month);
-    //     var_dump($date);
-    //     return Post::sql('SELECT * FROM :table');
-    // }
+    public static function getPostsOfMonth($month_and_year, $limit, $offset=0) {
+        $date = DateTime::createFromFormat('F Y', $month_and_year);
+        $month = intval($date->format('m'));
+        $year = intval($date->format('Y'));
+        return Post::sql('SELECT * FROM :table WHERE MONTH(creation_date) = ? AND YEAR(creation_date) = ? LIMIT ? OFFSET ?', array($month, $year, $limit, $offset));
+    }
+
+    public static function getPostsOfMonthCount($month_and_year) {
+        $date = DateTime::createFromFormat('F Y', $month_and_year);
+        $month = intval($date->format('m'));
+        $year = intval($date->format('Y'));
+        return Model::sql('SELECT count(*) as all_count FROM blog_post WHERE MONTH(creation_date) = ? AND YEAR(creation_date) = ?', array($month, $year))[0]->all_count;
+    }
 }
