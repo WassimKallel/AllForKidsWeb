@@ -1,18 +1,25 @@
 <?php include VIEWS . "/partial/header.php" ; ?>
 <?php 
 include_once CONTROLLERS . "/ForumManagement/ForumController.php" ; 
-// try {
-    $thread_id = $_GET['id'];
-    $thread = ForumController::getThreadByID($thread_id);
-    if(isset($_POST) && !empty($_POST['post-content'])) {
-        ForumController::saveThreadPost($thread, $_POST);
-    }
-    $posts = ForumController::getThreadPosts($thread);
-    $currentTopic = ForumController::getThreadTopic($thread);
-// } catch(Exception $e) {
 
-// } 
+$limit = ForumController::$limit;
+if(isset($_GET['p']) && $_GET['p'] > 0) {
+    $current_page = $_GET['p'];
+    $offset = ($_GET['p'] - 1) * $limit;
+} else {
+    $current_page = 1;
+    $offset = 0;
+}
 
+$thread_id = $_GET['id'];
+$thread = ForumController::getThreadByID($thread_id);
+if(isset($_POST) && !empty($_POST['post-content'])) {
+    ForumController::saveThreadPost($thread, $_POST);
+}
+
+$posts = ForumController::getThreadPosts($thread, $limit, $offset);
+$allPostsCount = ForumController::countAllPostsOfThread($thread);
+$currentTopic = ForumController::getThreadTopic($thread);
 ?>
 
 <?php include VIEWS . '/partial/header.php'; ?>
@@ -35,7 +42,7 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                         <h3 class="sub-title"> <?php if (AuthenticationController::$is_logged_in) {
                             echo "Welcome To our Forum: " .   AuthenticationController::getCurrentUser()->getFullName(); 
                         } else {
-                            ?> Latest News <?php
+                            ?> Forum <?php
                         } ?>
                         </h3>
                         <hr class="dash-divider">
@@ -66,7 +73,7 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                                             foreach ($posts as $post) {
                                         ?>
                                         <tr>
-                                            <td class="image">
+                                            <td class="post-avatar">
                                                 <div class="white-bg cart-img">
                                                     <a class="media-link" href="#">
                                                         <img src="assets/img/cart/cart-1.png" alt="">
@@ -74,43 +81,114 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                                                     </a> 
                                                 </div>
                                                 <div style="text-align: center;">
-                                                    <?= ForumController::getPostAuthor($post)->first_name; ?>
+                                                <p class="forum-user-name">
+                                                    <?= ForumController::getPostAuthor($post)->getFullName(); ?>
+                                                </p>    
+                                                    <p class="forum-role">
+                                                        <?= ForumController::getPostAuthor($post)->getRole(); ?>
+                                                    </p>
                                                 </div>
                                             </td>
                                             <td class="description">
-                                                <p> <?= $post->content ?></p>                                          
+                                                <p> <?= $post->content ?></p>   
+                                                <div class="forum-post-meta" >                                   
+                                                    <p><?= PrettyDateTime::parse(new DateTime($post->creation_date)) ?></p>      
+                                                </div>                                       
                                             </td>
                                         </tr>
                                         <?php 
-                                            }
+                                            } 
                                         ?>
+                                        
+                                        <?php
+                                        if (AuthenticationController::$is_logged_in) { ?>
                                         <tr>
-                                            <td class="image" style="width: 120px;">
+                                            <td class="post-avatar">
                                                 <div class="white-bg cart-img">
                                                     <a class="media-link" href="#"><img src="assets/img/cart/cart-1.png" alt=""></a> 
                                                 </div>
+                                                <div style="text-align: center;">
+                                                <p class="forum-user-name">
+                                                    <?= AuthenticationController::getCurrentUser()->getFullName();  ?>
+                                                </p>    
+                                                    <p class="forum-role">
+                                                        <?= AuthenticationController::getCurrentUser()->getRole(); ?>
+                                                    </p>
+                                                </div>
                                             </td>
                                             <td class="description">
-                                            <form method="post" action="thread?id=<?= $_GET['id'] ?>" id="post_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
-
-                                                
-                                                <p class="comment-form-comment">
-                                                    <textarea  rows="5" cols="60" name="post-content" class="" id="PostBody" placeholder="Post Text"></textarea>
-                                                </p>
-                                                
-                                                <div class="form-submit col-md-12">
-                                                    <button class="blue-btn btn pull-right" type="Submit">Post</button>                                           
-                                                </div>				
-                                            </form>                                             
+                                                <h4>Reply</h4>
+                                                <form method="post" action="thread?id=<?= $_GET['id'] ?>" id="post_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
+                                                    <p class="comment-form-comment">
+                                                        <textarea  rows="5" cols="60" name="post-content" class="" id="PostBody" placeholder="Post Text"></textarea>
+                                                    </p>
+                                                    
+                                                    <div class="form-submit col-md-12">
+                                                        <button class="blue-btn btn pull-right" type="Submit">Post</button>                                           
+                                                    </div>				
+                                                </form>                                             
                                             </td>
-                                            
                                         </tr>
+                                        <?php 
+                                            } else {
+                                        ?>
+                                        <tr>
+                                            <td class="description" colspan="2">
+                                                <h5>You need to <a href="#login-register" data-toggle="modal">Register/Login</a> in order to add a post</h5>    
+                                                                                  
+                                            </td>
+                                        </tr>
+                                        <?php
+                                            }
+                                        ?>
                                     </tbody>                               
                                 </table>
-                                <div class="continue-shopping">
-                                    <div class="shp-btn">
-                                        <a class="pink-btn btn" href="topic?id=<?= $currentTopic->id ?>"> Back To <?= $currentTopic->name ?> </a>
-                                    </div>                               
+
+                                <div class="light-bg sorter">
+                                <div class="col-md-4 col-sm-12">
+                                        <div class="shp-btn">
+                                            <a class="pink-btn btn" href="topic?id=<?= $currentTopic->id ?>"> Back To <?= $currentTopic->name ?> </a>
+                                        </div>                               
+                                    </div>
+                                    <style> 
+                                        .pagination-list > li.active > a{
+                                            color: white;
+                                        }
+                                    </style>
+                                    <div class="col-md-4 col-sm-12 bottom-pagination text-center">                                                                
+                                        <div class="inline-block">
+                                            <div class="pagination-wrapper">
+                                                <ul class="pagination-list">
+
+                                                    <li class="prev"> 
+                                                        <a <?= $current_page == 1 ? '' : 'href="?p='. (int)($current_page - 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-left"></i> 
+                                                        </a> 
+                                                    </li>
+                                                
+                                                    <?php
+                                                        for ($i=1; $i <= ceil($allPostsCount / $limit) ; $i++) { 
+                                                    ?>
+                                                        <li <?= $current_page == $i ? 'class="active"' : '' ?> > 
+                                                            <a <?= $current_page == $i ? '' : 'href="?id='. $thread_id .'&p='. $i .'"' ?> > <?= $i ?> </a>
+                                                        </li>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                    <li class="nxt"> 
+                                                        <a <?= 
+                                                        intval($current_page) === intval(ceil($allPostsCount / $limit)) 
+                                                        ? '' : 'href="?p='. (int)($current_page + 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-right"></i> 
+                                                        </a> 
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 show-items">                
+                                        <div class="pull-right">Showing Items : <?= $offset + 1 ?>  to <?= $offset + count($posts) ?> total <?= $allPostsCount ?></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>                                                    

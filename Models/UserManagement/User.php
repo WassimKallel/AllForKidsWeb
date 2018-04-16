@@ -1,6 +1,7 @@
 <?php
 
 use \Core\ORM\Model;
+include_once CONTROLLERS . "/UserManagement/Roles.php";
 
 class User extends Model {
     // Updating UserManagement Controllers is required when editing the User Model.
@@ -17,6 +18,10 @@ class User extends Model {
 
     public function getFullName() {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getRole() {
+        return Roles::search(intval($this->role));
     }
 }
 

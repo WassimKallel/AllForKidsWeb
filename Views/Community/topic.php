@@ -1,18 +1,23 @@
 <?php include VIEWS . "/partial/header.php" ; ?>
 <?php 
 include_once CONTROLLERS . "/ForumManagement/ForumController.php" ; 
-// try {
-    $topic_id = $_GET['id'];
-    $topic = ForumController::getTopicByID($topic_id);
 
-    if(isset($_POST) && !empty($_POST['post-content']) && !empty($_POST['thread-title'])) {
-        ForumController::saveThread($topic, $_POST);
-    }
-    $threads = ForumController::getTopicThreads($topic);
-// } catch(Exception $e) {
+$limit = ForumController::$limit;
+if(isset($_GET['p']) && $_GET['p'] > 0) {
+    $current_page = $_GET['p'];
+    $offset = ($_GET['p'] - 1) * $limit;
+} else {
+    $current_page = 1;
+    $offset = 0;
+}
+$topic_id = $_GET['id'];
+$topic = ForumController::getTopicByID($topic_id);
 
-// } 
-
+if(isset($_POST) && !empty($_POST['post-content']) && !empty($_POST['thread-title'])) {
+    ForumController::saveThread($topic, $_POST);
+}
+$threads = ForumController::getTopicThreads($topic, $limit, $offset);
+$allThreadsCount = ForumController::countAllThreadsOfTopic($topic);
 ?>
 
 <?php include VIEWS . '/partial/header.php'; ?>
@@ -35,7 +40,7 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                         <h3 class="sub-title"> <?php if (AuthenticationController::$is_logged_in) {
                             echo "Welcome To our Forum: " .   AuthenticationController::getCurrentUser()->getFullName(); 
                         } else {
-                            ?> Latest News <?php
+                            ?> Forum <?php
                         } ?>
                         </h3>
                         <hr class="dash-divider">
@@ -66,15 +71,29 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                                         ?>
                                         <tr>
                                             <td class="description">
-                                                <a href="thread?id=<?= $thread->id ?>" > <?= $thread->title ?></a>                                          
+                                                <a href="thread?id=<?= $thread->id ?>" > <?= $thread->title ?></a>  
+                                                <?php $postsCount = ForumController::countAllPostsOfThread($thread) ?>
+                                                <p> <?= $postsCount == 1 
+                                                        ? '1 Post'
+                                                        : $postsCount.' Posts'  ?>
+                                                    , last posted <?php 
+                                                        try {
+                                                            echo PrettyDateTime::parse(ForumController::getLastThreadPostTime($thread));
+                                                        } catch(Exception $e) {
+
+                                                        }
+                                                        ?>
+                                                </p>                                        
                                             </td>
                                         </tr>
                                         <?php 
                                             }
                                         ?>
+
+                                        <?php if (AuthenticationController::$is_logged_in) { ?>
                                         <tr>
                                             <td class="description">
-                                            
+                                            <h4>New Thread</h4>
                                             <form method="post" action="topic?id=<?= $_GET['id'] ?>" id="post_form" accept-charset="UTF-8" class="comment-form"><input type="hidden" name="form_type" value="new_comment" /><input type="hidden" name="utf8" value="✓" />
                                                 <p class="comment-form-comment">
                                                     <input type="text" name="thread-title" id="ThreadTitle" class="col-md-12 form-control" placeholder="Thread title" style="margin-bottom:10px;">
@@ -88,13 +107,67 @@ include_once CONTROLLERS . "/ForumManagement/ForumController.php" ;
                                             </td>
                                             
                                         </tr>
+                                        <?php 
+                                            } else {
+                                        ?>
+                                        <tr>
+                                            <td class="description" colspan="2">
+                                                <h5>You need to <a href="#login-register" data-toggle="modal">Register/Login</a> in order to add a new thread</h5>    
+                                                                                  
+                                            </td>
+                                        </tr>
+                                        <?php
+                                            }
+                                        ?>
                                     </tbody>                               
                                 </table>
-                                <div class="continue-shopping">
-                                    <div class="shp-btn">
-                                        <a class="pink-btn btn" href="forum"> Back To Forum</a>
-                                    </div>                               
+                                <div class="light-bg sorter">
+                                <div class="col-md-4 col-sm-12">
+                                        <div class="shp-btn">
+                                            <a class="pink-btn btn" href="forum"> Back To Forum </a>
+                                        </div>                               
+                                    </div>
+                                    <style> 
+                                        .pagination-list > li.active > a{
+                                            color: white;
+                                        }
+                                    </style>
+                                    <div class="col-md-4 col-sm-12 bottom-pagination text-center">                                                                
+                                        <div class="inline-block">
+                                            <div class="pagination-wrapper">
+                                                <ul class="pagination-list">
+
+                                                    <li class="prev"> 
+                                                        <a <?= $current_page == 1 ? '' : 'href="?p='. (int)($current_page - 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-left"></i> 
+                                                        </a> 
+                                                    </li>
+                                                
+                                                    <?php
+                                                        for ($i=1; $i <= ceil($allThreadsCount / $limit) ; $i++) { 
+                                                    ?>
+                                                        <li <?= $current_page == $i ? 'class="active"' : '' ?> > 
+                                                            <a <?= $current_page == $i ? '' : 'href="?id='. $topic_id .'&p='. $i .'"' ?> > <?= $i ?> </a>
+                                                        </li>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                    <li class="nxt"> 
+                                                        <a <?= 
+                                                        intval($current_page) === intval(ceil($allThreadsCount / $limit)) 
+                                                        ? '' : 'href="?p='. (int)($current_page + 1) .'"' ?>> 
+                                                            <i class="fa fa-angle-right"></i> 
+                                                        </a> 
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 show-items">                
+                                        <div class="pull-right">Showing Items : <?= $offset + 1 ?>  to <?= $offset + count($threads) ?> total <?= $allThreadsCount ?></div>
+                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>                                                    
                     </aside>

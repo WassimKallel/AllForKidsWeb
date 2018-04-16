@@ -10,7 +10,7 @@ class Post extends Model {
 	public $id;
 	public $content;
 	public $user_id;
-	public $thead_id;
+	public $thread_id;
 	public $creation_date;
 }
 
