@@ -18,7 +18,9 @@ $current_user = AuthenticationController::getCurrentUser();
 ?>
 
 <?php
-    include CONTOLLERS . "/BlogManagement/BlogcController.php";
+    include CONTROLLERS . "/BlogManagement/BlogController.php";
+    $posts = BlogController::getCurrentUserPosts();
+
     
 ?>
 <?php include VIEWS . "/partial/header.php" ?>
@@ -94,24 +96,25 @@ $current_user = AuthenticationController::getCurrentUser();
               <li><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
             <div class="tab-content">
-              <div class="active tab-pane" id="activity">
+              <div class="active tab-pane" id="activity"
+              >
+                  <?php $i = 0; foreach($posts as $post) { 
+                      if($i > 5) 
+                      break; 
+                      ?>
                 <!-- Post -->
                 <div class="post">
                   <div class="user-block">
                     <img class="img-circle img-bordered-sm" src="dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#"><?= $current_user->getFullName() ?></a>
                           <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
                         </span>
-                    <span class="description">Shared publicly - 7:30 PM today</span>
+                    <span class="description">Shared publicly - <?= PrettyDateTime::parse(new DateTime($post->creation_date)) ?></span>
                   </div>
                   <!-- /.user-block -->
                   <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
+            <?=  $post->title ?>
                   </p>
             
                   <div class="timeline-footer">
@@ -120,31 +123,7 @@ $current_user = AuthenticationController::getCurrentUser();
                     </div>
                 </div>
                 <!-- /.post -->
-                      <!-- Post -->
-                      <div class="post">
-                  <div class="user-block">
-                    <img class="img-circle img-bordered-sm" src="dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                        </span>
-                    <span class="description">Shared publicly - 7:30 PM today</span>
-                  </div>
-                  <!-- /.user-block -->
-                  <p>
-                    Lorem ipsum represents a long-held tradition for designers,
-                    typographers and the like. Some people hate it and argue for
-                    its demise, but others ignore the hate as they create awesome
-                    tools to help create filler text for everyone from bacon lovers
-                    to Charlie Sheen fans.
-                  </p>
-            
-                  <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Read</a>
-                        <a class="btn btn-primary btn-xs">edit</a>
-                    </div>
-                </div>
-                <!-- /.post -->
+    <?php $i++; } ?>
               </div>
 
 
