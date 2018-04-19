@@ -13,6 +13,9 @@ include "Core/PrettyDateTime.php";
 DataBaseManager::initializeMapper();
 // User Management Initialization 
 include_once CONTROLLERS . "/UserManagement/AuthenticationController.php" ;
+include_once CONTROLLERS . "/UserManagement/RoleController.php" ;
+include_once CONTROLLERS . "/UserManagement/Roles.php" ;
+include_once CONTROLLERS . "/UserManagement/UserController.php" ;
 $AuthController = new AuthenticationController();
 include_once MODELS . "/UserManagement/User.php";
 $GLOBALS["AuthController"] = $AuthController;

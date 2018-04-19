@@ -1,4 +1,5 @@
 <?php include VIEWS . "/partial/login_pop_up.php"; ?> 
+
             <!-- Header -->
             <header class="light-bg">
                 <!-- Header top bar starts-->
@@ -30,7 +31,12 @@
                                             <ul class="dropdown-menu">
                                             <?php if ($GLOBALS["AuthController"]::$is_logged_in)  {?>
                                                 <li><a href="profile">Profile (<?=  $GLOBALS["AuthController"]::getCurrentUser()->getFullName() ?>)</a></li>
+                                                <?php if(RoleController::adminAccessGranted()) { ?>
+                                                    <li><a href="admin">Admin Dashboard</a></li>
+                                                <?php } ?>
                                                 <li><a href="logout">Logout</a></li>
+                             
+
                                                 <?php } else {
                                                     ?>
                                                 <li><a href="#login-register" data-toggle="modal">Register/Login</a></li>
