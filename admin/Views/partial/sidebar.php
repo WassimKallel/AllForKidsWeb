@@ -60,8 +60,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List posts </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Post </a></li>
+            <li><a href="blog_posts"><i class="fa fa-circle-o"></i> List posts </a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i> Add Post </a></li>
           </ul>
         </li>
 

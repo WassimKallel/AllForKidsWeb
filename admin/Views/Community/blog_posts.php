@@ -41,8 +41,8 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-            
-            <table id="example1" class="table table-bordered table-striped">
+    
+            <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Title</th>
@@ -88,6 +88,18 @@
 <!-- ./wrapper -->
 
 
-</script>
+        <script>
+            $(function () {
+
+              $('#posts_table').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : true
+              })
+            })
+   </script>
 </body>
 </html>
