@@ -32,11 +32,6 @@ class ErrorHandler
                 "Title" => "Internal Error",
                 "Message" => "The server has encountered an unknown error."
             );
-        else if($code == 423)
-            return array("Code" => 423 ,
-                "Title" => "Application Locked",
-                "Message" => "The application that is being accessed is locked.<br/>You already submitted an application for this track & session "
-            );
         else return array("Code" => 404,
             "Title" => "Not found",
             "Message" => "The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible."
