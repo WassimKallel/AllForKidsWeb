@@ -1,3 +1,4 @@
+<?php RoleController::adminAccessGrantedWithRedirection(); ?>
 <?php include VIEWS . "/partial/header.php" ?>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
