@@ -5,13 +5,12 @@
         $_AuthenticationController = new AuthenticationController();
         $is_valid_login = $_AuthenticationController->login($_POST["username"], $_POST["password"]); 
         if ($is_valid_login) {
-            AuthenticationController::$current_user = User::retrieveByField("username",$POST["username"]);
+            AuthenticationController::$current_user = User::retrieveByField("username",$_POST["username"])[0];
             AuthenticationController::$is_logged_in = True;
         } else {
             header("Location: login?login_error=403");
         }
     }
-    
 ?>
 <?php 
     if (!$GLOBALS["AuthController"]::$is_logged_in) {

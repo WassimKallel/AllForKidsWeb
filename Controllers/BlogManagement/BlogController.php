@@ -100,4 +100,9 @@ class BlogController {
         $year = intval($date->format('Y'));
         return Model::sql('SELECT count(*) as all_count FROM blog_post WHERE MONTH(creation_date) = ? AND YEAR(creation_date) = ?', array($month, $year))[0]->all_count;
     }
+    public static function getCurrentUserPosts() {
+        if (AuthenticationController::$is_logged_in ) {
+            return Post::retrieveByField("user_id", AuthenticationController::getCurrentUser()->id);
+        }
+    }
 }

@@ -15,7 +15,7 @@
         }
            $user = AuthenticationController::getCurrentUser();
         
-    ?>
+?>
 <?php include VIEWS . "/partial/header.php" ?>
     <body id="home" class="wide">
 

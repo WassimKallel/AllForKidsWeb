@@ -6,6 +6,6 @@ class PostTag extends Model{
 	protected static $table= "posttag";
 
 	public $id;
-	public $user_id; 
+	public $post_id; 
 	public $tag_id; 
 }

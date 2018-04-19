@@ -8,6 +8,12 @@ class Roles extends Enum {
     const CommunityManager = 2;
     const Administrator = 3;
         
+    public static function keys()
+    {
+        return array_keys(static::toArray());
+    }
+
+
 }
 
 ?>
