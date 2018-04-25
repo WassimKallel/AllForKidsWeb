@@ -1003,7 +1003,11 @@ class Model extends SerializableModel
         return self::getConnection()->query(sprintf("SELECT * FROM `%s`.`%s`  LIMIT 1", self::getDatabaseName(), self::getTableName()))->fetch_fields();
     }
 
-
+    public function reload(){
+        if($this->{static::$pk}){
+            return static::retrieveByPK($this->{static::$pk});
+        }
+    }
 
 }
 

@@ -14,9 +14,10 @@ $GLOBALS["AllForKids"]["mysql_password"] = "";
 $GLOBALS["AllForKids"]["mysql_database"] = "esprit";
 $GLOBALS["AllForKids"]["platform_directory"] = "/AllForKidsWeb/";
 $GLOBALS["AllForKids"]["platform_host"] = "localhost";
-$GLOBALS["AllForKids"]["data_directory"] = "/AllForKidsWeb/data/";
+// must end with '/'
+$GLOBALS["AllForKids"]["data_directory"] = "/opt/lampp/htdocs/AllForKidsWeb/data/";
 $GLOBALS["AllForKids"]["protocol"] = "http";
-$GLOBALS["AllForKids"]["data_url"] = $GLOBALS["AllForKids"]["protocol"]."://".$GLOBALS["AllForKids"]["platform_host"] .$GLOBALS["AllForKids"]["data_directory"];
+$GLOBALS["AllForKids"]["data_folder"] = $GLOBALS["AllForKids"]["protocol"]."://".$GLOBALS["AllForKids"]["platform_host"] . '/AllForKidsWeb/data/';
 $GLOBALS["AllForKids"]["home_url"] = $GLOBALS["AllForKids"]["protocol"]."://".$GLOBALS["AllForKids"]["platform_host"].$GLOBALS["AllForKids"]["platform_directory"];
 
 

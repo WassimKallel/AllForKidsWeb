@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Preparing</title>
+    <link rel="stylesheet" href="http://192.168.2.180/TR/css/bootstrap.min.css">
+    <script src="http://192.168.2.180/TR/js/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="http://192.168.2.180/TR/css/animate.css">
+    <style type="text/css">
+
+        @-webkit-keyframes spincube {
+            from,to  { -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            16%      { -webkit-transform: rotateY(-90deg);                           }
+            33%      { -webkit-transform: rotateY(-90deg) rotateZ(90deg);            }
+            50%      { -webkit-transform: rotateY(-180deg) rotateZ(90deg);           }
+            66%      { -webkit-transform: rotateY(-270deg) rotateX(90deg);           }
+            83%      { -webkit-transform: rotateX(90deg);                            }
+        }
+
+        @keyframes spincube {
+            from,to {
+                -moz-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                -ms-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            16% {
+                -moz-transform: rotateY(-90deg);
+                -ms-transform: rotateY(-90deg);
+                transform: rotateY(-90deg);
+            }
+            33% {
+                -moz-transform: rotateY(-90deg) rotateZ(90deg);
+                -ms-transform: rotateY(-90deg) rotateZ(90deg);
+                transform: rotateY(-90deg) rotateZ(90deg);
+            }
+            50% {
+                -moz-transform: rotateY(-180deg) rotateZ(90deg);
+                -ms-transform: rotateY(-180deg) rotateZ(90deg);
+                transform: rotateY(-180deg) rotateZ(90deg);
+            }
+            66% {
+                -moz-transform: rotateY(-270deg) rotateX(90deg);
+                -ms-transform: rotateY(-270deg) rotateX(90deg);
+                transform: rotateY(-270deg) rotateX(90deg);
+            }
+            83% {
+                -moz-transform: rotateX(90deg);
+                -ms-transform: rotateX(90deg);
+                transform: rotateX(90deg);
+            }
+        }
+
+        .cubespinner {
+            -webkit-animation-name: spincube;
+            -webkit-animation-timing-function: ease-in-out;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-duration: 12s;
+            -webkit-animation-fill-mode: forwards;
+
+            animation-name: spincube;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-duration: 12s;
+            animation-fill-mode: forwards;
+
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+
+            -webkit-transform-origin: 180px 180px 0;
+            -moz-transform-origin: 180px 180px 0;
+            -ms-transform-origin: 180px 180px 0;
+            transform-origin: 180px 180px 0;
+            animation-fill-mode: forwards;
+        }
+
+        .cubespinner div {
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            border: 1px solid #2980b9;
+            background: #2980b9;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+            line-height: 360px;
+            text-align: center;
+            font-size: 200px;
+        }
+
+        .cubespinner .face1 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: translateZ(180px);
+            -moz-transform: translateZ(180px);
+            -ms-transform: translateZ(180px);
+            transform: translateZ(180px);
+
+        }
+        .cubespinner .face2 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: rotateY(90deg) translateZ(180px);
+            -moz-transform: rotateY(90deg) translateZ(180px);
+            -ms-transform: rotateY(90deg) translateZ(180px);
+            transform: rotateY(90deg) translateZ(180px);
+
+        }
+        .cubespinner .face3 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: rotateY(90deg) rotateX(90deg) translateZ(180px);
+            -moz-transform: rotateY(90deg) rotateX(90deg) translateZ(180px);
+            -ms-transform: rotateY(90deg) rotateX(90deg) translateZ(180px);
+            transform: rotateY(90deg) rotateX(90deg) translateZ(180px);
+        }
+        .cubespinner .face4 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: rotateY(180deg) rotateZ(90deg) translateZ(180px);
+            -moz-transform: rotateY(180deg) rotateZ(90deg) translateZ(180px);
+            -ms-transform: rotateY(180deg) rotateZ(90deg) translateZ(180px);
+            transform: rotateY(180deg) rotateZ(90deg) translateZ(180px);
+        }
+        .cubespinner .face5 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateZ(180px);
+            -moz-transform: rotateY(-90deg) rotateZ(90deg) translateZ(180px);
+            -ms-transform: rotateY(-90deg) rotateZ(90deg) translateZ(180px);
+            transform: rotateY(-90deg) rotateZ(90deg) translateZ(180px);
+        }
+        .cubespinner .face6 {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: rotateX(-90deg) translateZ(180px);
+            -moz-transform: rotateX(-90deg) translateZ(180px);
+            -ms-transform: rotateX(-90deg) translateZ(180px);
+            transform: rotateX(-90deg) translateZ(180px);
+        }
+
+    </style>
+    <style>
+        @keyframes waitandhide {
+            from { opacity:0; }
+            to { opacity:0; }
+        }
+        @keyframes show {
+            from { opacity:0; }
+            to { opacity:1; }
+        }
+        div {
+            opacity:1;
+            animation: show 0s 0s, waitandhide 40s 10s;
+        }
+        .outer {
+            display: table;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .inner {
+            margin-left: auto;
+            margin-right: auto;
+            width: 1330px;
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: FightThis;
+            src: url("http://192.168.2.180/TR/nasalization-rg.ttf");
+        }
+        html *
+        {
+            font-family: FightThis !important;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function gameStateChecker() {
+            $.get( "http://192.168.2.180/TR/game", function( data ) {
+                if(data != "3")
+                    location.reload();
+            });
+
+
+        }
+        var currentCD = 5;
+        $(document).ready(function(){
+                setInterval(gameStateChecker,500);
+            $.fn.extend({
+                animateCss: function (animationName) {
+                    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                    this.addClass('animated ' + animationName).one(animationEnd, function() {
+                        $(this).removeClass('animated ' + animationName);
+                        currentCD--;
+                        $(this).html(currentCD);
+                        $(this).animateCss("bounce");
+                    });
+                }
+            });
+            $('#animate').animateCss('bounce');
+
+            }
+        );
+    </script>
+</head>
+
+<body style="background: green">
+<div class="outer">
+    <div class="middle">
+        <div class="inner">
+            <div align="center" style="vertical-align: middle;">
+
+                <h1 id="animate" class="animated pulse" style="color:red; font-weight: 600;line-height: 360px;text-align: center;  font-size: 200px;">1</h1>
+
+
+                <!--  <div class="stage animated shake infinite" style="width: 400px; height: 400px;">
+                      <div class="cubespinner">
+                          <div class="face1">5</div>
+                          <div class="face2">4</div>
+                          <div class="face3">3</div>
+                          <div class="face4">2</div>
+                          <div class="face5">1</div>
+                          <div class="face6">GO!</div>
+                      </div>
+  -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+</body>
+</html>

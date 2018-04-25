@@ -1,8 +1,10 @@
 <?php 
+
     RoleController::adminAccessGrantedWithRedirection();
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
+
     include_once CONTROLLERS . "/BlogManagement/BlogController.php";
     include_once MODELS . "/Blog/Post.php";
 
@@ -30,7 +32,7 @@
         array(
             new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title),
             new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content),
-            new FormField("creation_date", FieldType::DateTime, "Creation Date", $_GET["action"] == "create" ? "" : $post->creation_date, 3),
+            new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? "" : date_format(date_create($post->creation_date), 'Y-m-d'), 3),
             new FormField("image_path", FieldType::File, "Image ", ""),
         )
     );
@@ -88,8 +90,14 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
-
+<script>
+    $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('content')
+    //bootstrap WYSIHTML5 - text editor
+  })
 </script>
+
 </body>
 </html>

@@ -13,6 +13,11 @@ class BlogController {
         return Post::sql("SELECT * from :table ORDER BY creation_date DESC LIMIT ? OFFSET ?;", array(BlogController::$limit, $offset));
     }
 
+    public static function getAllPosts()
+    {
+        return Post::all();
+    }
+
     public static function loadAuthor($post) {
         return User::retrieveByPK($post->user_id);
     }

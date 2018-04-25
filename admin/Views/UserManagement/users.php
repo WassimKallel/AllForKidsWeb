@@ -1,11 +1,15 @@
 <?php 
-    RoleController::adminAccessGrantedWithRedirection();
+    RoleController::checkRole(Roles::Administrator);
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+
+    include_once MODELS . "/UserManagement/User.php";
+    include_once CONTROLLERS . "/UserManagement/UserController.php";
+
+    $users = UserController::getAllUsers();
+    
+
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -20,12 +24,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Blog Post
+        Users 
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Blog</a></li>
-        <li class="active">Post </li>
+        <li><a href="."><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="users">Users</a></li>
+
       </ol>
     </section>
 
@@ -41,20 +45,23 @@
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Number Of Comments</th>
-                  <th>Action</th>
+                  <th>Id</th>
+                  <th>First Name</th>
+                  <th>Last Name </th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($users as $user) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
-                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> </td>
-                  
+                  <td><?= $user->id ?></td>
+                  <td><?= $user->first_name ?></td>
+                  <td><?= $user->last_name  ?></td>
+                  <td><?= $user->email  ?></td>
+                  <td><?= $user->getRole()  ?></td>
+                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "user?action=edit&id=". $user->id ?>" > Edit </a> </td>
                 </tr>
         <?php } ?>
               </tbody>
@@ -86,7 +93,6 @@
 
         <script>
             $(function () {
-
               $('#posts_table').DataTable({
                 'paging'      : true,
                 'lengthChange': false,
