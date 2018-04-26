@@ -24,7 +24,7 @@ class DataBaseManager
     {
         if($conn == null) {
             // Connect to the database using mysqli
-            $conn = new mysqli($GLOBALS["AllForKids"]["mysql_hostname"], $GLOBALS["AllForKids"]["mysql_username"], $GLOBALS["AllForKids"]["mysql_password"], $GLOBALS["AllForKids"]["mysql_database"]);
+            $conn = new mysqli($GLOBALS["AllForKids"]["mysql_hostname"], $GLOBALS["AllForKids"]["mysql_username"], $GLOBALS["AllForKids"]["mysql_password"], $GLOBALS["AllForKids"]["mysql_database"],"3306");
             if( $conn->connect_error )
                 throw new Exception("MySQL connection could not be established: ".$conn->connect_error);
         }

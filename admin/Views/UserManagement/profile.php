@@ -28,8 +28,6 @@ $current_user = AuthenticationController::getCurrentUser();
 <div class="wrapper">
 <?php include VIEWS . "/partial/topmenu.php" ?>
 <?php include VIEWS . "/partial/sidebar.php" ?>
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -50,7 +48,7 @@ $current_user = AuthenticationController::getCurrentUser();
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="dist/img/user4-128x128.jpg" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>" alt="Image not found">
 
               <h3 class="profile-username text-center"><?= $current_user->getFullName(); ?></h3>
 

@@ -1,3 +1,4 @@
+
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -47,8 +48,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Users </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add User </a></li>
+            <li><a href="users"><i class="fa fa-circle-o"></i> List Users </a></li>
+            <li><a href="user?action=create"><i class="fa fa-circle-o"></i> Add User </a></li>
           </ul>
         </li>
 
@@ -61,7 +62,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="blog_posts"><i class="fa fa-circle-o"></i> List posts </a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Add Post </a></li>
+            <li><a href="blog_post?action=create"><i class="fa fa-circle-o"></i> Add Post </a></li>
           </ul>
         </li>
 
@@ -75,8 +76,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Threads </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Thread </a></li>
+            <li><a href="forum_threads"><i class="fa fa-circle-o"></i> List Threads </a></li>
+            <li><a href="forum_topics"><i class="fa fa-circle-o"></i> List Topics </a></li>
+            <li><a href="forum_thread?action=create"><i class="fa fa-circle-o"></i> Add Thread </a></li>
+            <li><a href="forum_topic?action=create"><i class="fa fa-circle-o"></i> Add Topic </a></li>
+            <li><a href="forum_posts"><i class="fa fa-circle-o"></i> List Posts </a></li>
           </ul>
         </li>
 
@@ -88,10 +92,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Products </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> List Categories </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> List Products </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Thread </a></li>
+            <li><a href="products"><i class="fa fa-circle-o"></i> List Products </a></li>
+            <li><a href="categories"><i class="fa fa-circle-o"></i> List Categories </a></li>
+            <li><a href="category?action=create"><i class="fa fa-circle-o"></i> Add category </a></li>
+            <li><a href="product?action=create"><i class="fa fa-circle-o"></i> Add Product </a></li>
+            <li><a href="stores"><i class="fa fa-circle-o"></i> List Stores </a></li>
+            <li><a href="store?action=create"><i class="fa fa-circle-o"></i> Add Store </a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -102,10 +108,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Customers </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> List Orders </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> List Sotores </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Store </a></li>
+            <li><a href="customers"><i class="fa fa-circle-o"></i> List Customers </a></li>
+            <li><a href="orders"><i class="fa fa-circle-o"></i> List Orders </a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -116,27 +120,28 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Shipping Methods </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add shipping Method </a></li>
+            <li><a href="shipping_methods"><i class="fa fa-circle-o"></i> List Shipping Methods </a></li>
+            <li><a href="shipping_method?action=create"><i class="fa fa-circle-o"></i> Add shipping Method </a></li>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users"></i> <span> Services Management</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="."><i class="fa fa-circle-o"></i> List Services </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> List categories </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Service </a></li>
-            <li><a href="profile"><i class="fa fa-circle-o"></i> Add Store </a></li>
-          </ul>
-        </li>
- 
-
       </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
+  
+  <div class="content-wrapper">
+    
+  <?php 
+
+if (isset($_SESSION["alerts"])) {
+    foreach ($_SESSION["alerts"] as $alert) {
+        ?>
+      <div class="alert <?= AlertType::getTypeClass($alert["type"]) ?> alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><i class="icon fa fa-ban"></i> <?= $alert["type"] == AlertType::Error ? "Error" : "Info" ?>!</h4>
+           <?= $alert["message"] ?>
+      </div>
+  <?php
+    }
+    unset($_SESSION["alerts"]);
+}

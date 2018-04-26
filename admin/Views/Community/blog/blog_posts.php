@@ -16,7 +16,6 @@
 
   <?php include VIEWS . "/partial/sidebar.php" ?>
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -37,7 +36,7 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-    
+            <a href="blog_post?action=create" class="btn btn-success fright">  Add new blog post </a>
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>

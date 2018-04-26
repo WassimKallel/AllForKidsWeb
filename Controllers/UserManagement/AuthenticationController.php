@@ -70,9 +70,9 @@ class AuthenticationController {
         return password_verify($password, $password_from_db) ;
     } 
     public function login($username, $password) {
-        
+
         $user = User::sql("SELECT * FROM :table WHERE username=? ",array($username));
-        if(!empty($user) && AuthenticationController::check_password($user->password,$password)); {
+        if(!empty($user) && AuthenticationController::check_password($password,$user[0]->password)) {
             $token = $this->generateRandomString();
             $this->saveNewSession($user[0]->id,$token);
             return True;

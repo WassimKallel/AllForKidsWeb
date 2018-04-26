@@ -40,11 +40,12 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <!-- CK Editor -->
 <script src="bower_components/ckeditor/ckeditor.js"></script>
+<script src="bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 
 <!-- Bootstrap WYSIHTML5 -->
 <script>
-
+    $('.select2').select2()
 </script>

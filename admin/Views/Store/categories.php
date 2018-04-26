@@ -1,15 +1,11 @@
 <?php 
-    RoleController::checkRole(Roles::Administrator);
+    RoleController::adminAccessGrantedWithRedirection();
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-
-    include_once MODELS . "/UserManagement/User.php";
-    include_once CONTROLLERS . "/UserManagement/UserController.php";
-
-    $users = UserController::getAllUsers();
-    
-
+    include_once MODELS . "/Blog/Post.php";
+    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
+    $posts = BlogController::getAllPosts();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -17,19 +13,17 @@
 <div class="wrapper">
 
   <?php include VIEWS . "/partial/topmenu.php" ?>
-
   <?php include VIEWS . "/partial/sidebar.php" ?>
   <!-- Content Wrapper. Contains page content -->
-
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Users 
+        Orders
       </h1>
       <ol class="breadcrumb">
-        <li><a href="."><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="users">Users</a></li>
-
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Store</a></li>
+        <li class="active">Orders </li>
       </ol>
     </section>
 
@@ -38,32 +32,29 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box box-info">
+
             <!-- /.box-header -->
             <div class="box-body pad">
-            <a href="user?action=create" class="btn btn-success fright">  Add new user </a>
+            <a href="blog_post?action=create" class="btn btn-success fright">  Add new Categorie </a>
 
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>First Name</th>
-                  <th>Last Name </th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Is active</th>
-                  <th>Actions</th>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($users as $user) {  ?>
+        <?php foreach($posts as $post) {  ?>
           <tr>
-                  <td><?= $user->id ?></td>
-                  <td><?= $user->first_name ?></td>
-                  <td><?= $user->last_name  ?></td>
-                  <td><?= $user->email  ?></td>
-                  <td><?= $user->getRole()  ?></td>
-                  <td><?= $user->active == 0 ? "blocked" : "active"  ?></td>
-                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "user?action=edit&id=". $user->id ?>" > Edit </a> </td>
+                  <td><?= $post->title ?></td>
+                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
+                  <td><?= count(BlogController::getComments($post)) ?></td>
+                  <td>
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> 
+                </td>
+                  
                 </tr>
         <?php } ?>
               </tbody>
@@ -95,6 +86,7 @@
 
         <script>
             $(function () {
+
               $('#posts_table').DataTable({
                 'paging'      : true,
                 'lengthChange': false,

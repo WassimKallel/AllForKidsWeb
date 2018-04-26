@@ -137,7 +137,7 @@ class FormField
         } elseif ($this->FieldType == FieldType::Email) {
             echo   "<input  type=\"email\" name=\"".$this->Name."\"  ".$this->required."  class=\"".$this->StyleClass."\" id=\"".$this->Name."\" placeholder=\"Enter ".$this->DisplayName."\" value=\"".$this->default_value."\" />";
         } elseif ($this->FieldType == FieldType::StringEnumeration && !empty($this->StringEnumeration)) {
-            echo "<select id=\"".$this->Name."\" name=\"".$this->Name."\" ".$this->required." class=\"".$this->StyleClass."\">";
+            echo "<select style=\" width : 100%;\"  id=\"".$this->Name."\" name=\"".$this->Name."\" ".$this->required." class=\"".$this->StyleClass." select2\">";
 
             foreach ($this->StringEnumeration as $el => $value) {
                 echo "<option value=\"".$value."\" ".($value == $this->default_value ? "selected " : " ").">".$el."</option>";

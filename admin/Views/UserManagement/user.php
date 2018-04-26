@@ -44,6 +44,10 @@
               "Analyst"=> Roles::Analyst,
               "Admin" =>  Roles::Administrator
               ]),
+              new FormField("active", FieldType::StringEnumeration, "Is active", $_GET["action"] == "create" ? "" : $user->active, $required = true, [
+                "active" => 1,
+                "blocked"=> 0,
+                ]),
               new FormField("avatar_path", FieldType::Image, "Avatar", $_GET["action"] == "create" ? "" : $user->avatar_path, $required = false),
         )
     );
@@ -51,6 +55,7 @@
         $error = AdminUserController::handlePostRequest($form, $_GET["action"]);
         if ($_GET["action"] == 'create' && !$error) {
             header('Location: users');
+            exit();
         }
     }
 
@@ -61,22 +66,8 @@
 <div class="wrapper">
 
   <?php include VIEWS . "/partial/topmenu.php" ?>
-
   <?php include VIEWS . "/partial/sidebar.php" ?>
-  <!-- Content Wrapper. Contains page content -->
 
-
- 
-  <div class="content-wrapper">
-  <?php if ($error) {
-    ?>
-  <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-               <?= $error ?>
-  </div>
-  <?php
-}  ?>
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
