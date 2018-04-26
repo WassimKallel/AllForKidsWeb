@@ -11,7 +11,7 @@
                 isset($post_data["first_name"]) &&
                 isset($post_data["last_name"]) &&
                 isset($post_data["email"])) {
-                if(UserController::checkUsername($post_data["username"]) && $post_data["username"] != $current_user->username) {
+                if(UserController::usernameExist($post_data["username"]) && $post_data["username"] != $current_user->username) {
                     return False;
                 }
                 $current_user->username = $post_data["username"];
@@ -30,7 +30,7 @@
             isset($post_data["first_name"]) &&
             isset($post_data["last_name"]) &&
             isset($post_data["email"])) {
-            if(UserController::checkUsername($post_data["username"])) {
+            if(UserController::usernameExist($post_data["username"])) {
                 return False;
             }
             $user = new User();
@@ -45,8 +45,13 @@
         }
         return false;
         }
-        public static function checkUsername($username) {
+        public static function usernameExist($username) {
             return !empty(User::retrieveByField("username",$username));
-            
+        }
+        public static function getAllUsers() {
+            return User::all();
+        }
+        public static function getUser($id) {
+            return User::retrieveByPK($id);
         }
     }

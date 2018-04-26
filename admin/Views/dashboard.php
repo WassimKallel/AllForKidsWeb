@@ -5,8 +5,7 @@
 <?php include VIEWS . "/partial/topmenu.php" ?>
 <?php include VIEWS . "/partial/sidebar.php" ?>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>

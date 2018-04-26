@@ -3,38 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
     include_once MODELS . "/Blog/Post.php";
-
-    if (!isset($_GET["action"])) {
-        header("Location: error?error=400");
-        exit();
-    } else {
-        if ($_GET["action"] == "edit") {
-            if (!isset($_GET["id"])) {
-                header("Location: error?error=400");
-                exit();
-            }
-            $post = BlogController::getPost($_GET["id"]);
-        } elseif ($_GET["action"] != "create") {
-            header("Location: error?error=400");
-            exit();
-        }
-    }
-    
-    
-    
-    $form = new FormHandler(
-        "post_form",
-        "",
-        array(
-            new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title),
-            new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content),
-            new FormField("creation_date", FieldType::DateTime, "Creation Date", $_GET["action"] == "create" ? "" : $post->creation_date, 3),
-            new FormField("image_path", FieldType::File, "Image ", ""),
-        )
-    );
-
+    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
+    $posts = BlogController::getAllPosts();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -45,7 +16,6 @@
 
   <?php include VIEWS . "/partial/sidebar.php" ?>
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -63,12 +33,35 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box box-info">
-            <div class="box-header">
-            </div>
+
             <!-- /.box-header -->
             <div class="box-body pad">
-                        <?php  $form->renderForm(); ?>
+            <a href="blog_post?action=create" class="btn btn-success fright">  Add new blog post </a>
+            <table id="posts_table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Number Of Comments</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+        <?php foreach($posts as $post) {  ?>
+          <tr>
+                  <td><?= $post->title ?></td>
+                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
+                  <td><?= count(BlogController::getComments($post)) ?></td>
+                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> </td>
+                  
+                </tr>
+        <?php } ?>
+              </tbody>
+
+              </table>
             </div>
+
+
           </div>
           <!-- /.box -->
 
@@ -90,6 +83,18 @@
 <!-- ./wrapper -->
 
 
-</script>
+        <script>
+            $(function () {
+
+              $('#posts_table').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : true
+              })
+            })
+   </script>
 </body>
 </html>

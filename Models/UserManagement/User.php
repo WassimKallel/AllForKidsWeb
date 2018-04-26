@@ -14,6 +14,10 @@ class User extends Model {
     public $email;
     public $password;
     public $is_customer;
+    public $avatar_path;
+    public $active;
+    public $phone;
+    public $address;
 
 
     public function getFullName() {

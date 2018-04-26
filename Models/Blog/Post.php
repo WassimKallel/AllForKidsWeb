@@ -11,4 +11,5 @@ class Post extends Model{
 	public $content; 
 	public $creation_date;
 	public $image_path;
+	public $online;
 }

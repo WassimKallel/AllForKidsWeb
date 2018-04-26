@@ -71,4 +71,8 @@ class ForumController {
     public static function countAllTopics() {
         return Model::sql('SELECT count(*) as all_count FROM topic')[0]->all_count;
     }
+    public static function getTopics() {
+        return Topic::all();
+    }
+
 }

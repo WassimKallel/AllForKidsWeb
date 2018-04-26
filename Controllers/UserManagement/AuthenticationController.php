@@ -63,13 +63,16 @@ class AuthenticationController {
         
     }
     public static function hash_password($password) {
-        return hash('sha256' , $password);
+        return password_hash($password,PASSWORD_BCRYPT);
     }
-
+    
+    public static function check_password($password, $password_from_db){
+        return password_verify($password, $password_from_db) ;
+    } 
     public function login($username, $password) {
-        $password = AuthenticationController::hash_password($password);
-        $user = User::sql("SELECT * FROM :table WHERE username=? AND password=?",array($username,$password));
-        if(!empty($user)) {
+
+        $user = User::sql("SELECT * FROM :table WHERE username=? ",array($username));
+        if(!empty($user) && AuthenticationController::check_password($password,$user[0]->password)) {
             $token = $this->generateRandomString();
             $this->saveNewSession($user[0]->id,$token);
             return True;
