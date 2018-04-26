@@ -76,11 +76,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="forum_threads"><i class="fa fa-circle-o"></i> List Threads </a></li>
             <li><a href="forum_topics"><i class="fa fa-circle-o"></i> List Topics </a></li>
-            <li><a href="forum_thread?action=create"><i class="fa fa-circle-o"></i> Add Thread </a></li>
             <li><a href="forum_topic?action=create"><i class="fa fa-circle-o"></i> Add Topic </a></li>
-            <li><a href="forum_posts"><i class="fa fa-circle-o"></i> List Posts </a></li>
           </ul>
         </li>
 

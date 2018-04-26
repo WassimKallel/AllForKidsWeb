@@ -8,5 +8,6 @@ class Topic extends Model{
 
     public $id;
     public $name;
+    public $online;
 }
 

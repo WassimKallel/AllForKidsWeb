@@ -1,0 +1,18 @@
+<?php
+
+use \Core\ORM\Model;
+
+class LineItem extends Model {
+
+    protected static $table= "line_item";
+    public $id;
+    public $order_id;
+    public $product_id;
+    public $quantity;
+
+    public function getStatus(){
+        return array("color" => "", "Name" => "") ; 
+    }
+
+}
+

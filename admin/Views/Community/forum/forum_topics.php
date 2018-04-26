@@ -3,9 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+    include_once CONTROLLERS . "/ForumManagement/ForumController.php";
+    
+    $topics = ForumController::getTopics();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -19,12 +19,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Blog Post
+        Forum Topics
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Blog</a></li>
-        <li class="active">Post </li>
+        <li><a href="#">Forum</a></li>
+        <li class="active">Topics </li>
       </ol>
     </section>
 
@@ -36,23 +36,23 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-            <a href="post?action=create" class="btn btn-success fright">  Add new blog post </a>
+            <a href="post?action=create" class="btn btn-success fright">  Add new Topic </a>
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Number Of Comments</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($topics as $topic) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
-                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> </td>
+                  <td><?= $topic->id ?></td>
+                  <td><?= $topic->name ?></td>
+                  <td><?= $topic->online == 0 ? "Not published" : "published" ?></td>
+                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "forum_topic?action=edit&id=". $topic->id ?>" > Edit </a> </td>
                   
                 </tr>
         <?php } ?>
