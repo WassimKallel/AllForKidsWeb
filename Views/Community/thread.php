@@ -25,7 +25,6 @@ $currentTopic = ForumController::getThreadTopic($thread);
 <?php include VIEWS . '/partial/header.php'; ?>
 
     <body id="home" class="wide">
-
         <main class="wrapper"> 
             <?php include VIEWS . '/partial/menu.php'; ?>
           
@@ -65,7 +64,7 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                     <thead>
                                         <tr>
                                             <th>User</th>                                
-                                            <th>Post</th>                                        
+                                            <th colspan="2">Post</th>                                   
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,6 +93,12 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                                 <div class="forum-post-meta" >                                   
                                                     <p><?= PrettyDateTime::parse(new DateTime($post->creation_date)) ?></p>      
                                                 </div>                                       
+                                            </td>
+                                            <td class="vote">
+                                                <a id="upvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  '' :  'onclick="upvote('. $post->id .')"' ?> > <i class="fa fa-caret-up"></i></a>
+                                                <p></p>
+                                                <p id="score-<?= $post->id ?>"><?= ForumController::count_score($post) ?></p>
+                                                <a id="downvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  '' :  'onclick="upvote('. $post->id .')"' ?> > <i class="fa fa-caret-down"></i></a>
                                             </td>
                                         </tr>
                                         <?php 
@@ -266,7 +271,20 @@ $currentTopic = ForumController::getThreadTopic($thread);
               <?php include VIEWS . '/partial/footer.php'; ?>
         </main>
 
+    <script>
+        function upvote(postID) {
+            $.post( 'vote' , {"post_id" : postID, "vote": 1});
+            $('#score-'+postID).text(parseInt($('#score-'+postID).text()) + 1);
+            $('#upvote-'+postID).removeAttr("onclick");
+            $('#downvote-'+postID).removeAttr("onclick");
+        }
+        function downvote(postID) {
+            $.post( 'vote' , {"post_id" : postID, "vote": -1});
+            $('#score-'+postID).text(parseInt($('#score-'+postID).text()) - 1);
+            $('#upvote-'+postID).removeAttr("onclick");
+            $('#downvote-'+postID).removeAttr("onclick");
+        }
+    </script>
 
     </body>
-
 </html>
