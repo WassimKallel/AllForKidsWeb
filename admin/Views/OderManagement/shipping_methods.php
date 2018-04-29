@@ -3,9 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Store/Store.php";
-    include_once CONTROLLERS . "/StoreManagement/StoreController.php";
-    $categories = StoreController::getAllStores();
+
+    include_once CONTROLLERS . "/OrderManagement/OrderController.php";
+    $s_methods = OrderController::getAllSipphingMethods();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -23,7 +23,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Store</a></li>
-        <li class="active">Categories </li>
+        <li class="active">Shipping methods </li>
       </ol>
     </section>
 
@@ -35,30 +35,30 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-            <a href="store?action=create" class="btn btn-success fright">  Add new Store </a>
 
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>id</th>
                   <th>Name</th>
+                  <th>Extra Fee</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($categories as $category) {  ?>
+        <?php foreach ($s_methods as $s_method) {
+    ?>
           <tr>
-                  <td><?= $category->id ?></td>
-                  <td><?= $category->name ?></td>
-                  <td><?= $category->active == 0 ? "Not Active" : "Active" ?></td>
-      
+                  <td><?= $s_method->name ?></td>
+                  <td><?= $s_method->extra_fee .  ' DT' ?></td>
+                  <td><?= $s_method->active == 0 ? "Not Published" : "Published" ?></td>
                   <td>
-                      <a class="btn btn-primary" href="<?= HOME_DIR . "store?action=edit&id=". $category->id ?>" > Edit </a> 
-                </td>
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "shipping_method?action=edit&id=". $s_method->id ?>" > Edit </a> 
+                  </td>
                   
                 </tr>
-        <?php } ?>
+        <?php
+} ?>
               </tbody>
 
               </table>

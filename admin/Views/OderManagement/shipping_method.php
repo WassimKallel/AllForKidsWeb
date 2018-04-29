@@ -5,11 +5,10 @@
     use Handlers\FieldType;
     use Handlers\FormField;
 
-    include_once CONTROLLERS . "/StoreManagement/ProductController.php";
+    include_once CONTROLLERS . "/OrderManagement/OrderController.php";
     include_once MODELS . "/Store/Category.php";
-    include_once MODELS . "/Store/Product.php";
-    $product = null;
-    include_once ADMINCONTROLLERS . "/StoreManagement/AdminProductController.php" ;
+    $s_method = null;
+    include_once ADMINCONTROLLERS . "/OrderManagement/AdminOrderController.php" ;
 
     if (!isset($_GET["action"])) {
         header("Location: error?error=400");
@@ -20,40 +19,33 @@
                 header("Location: error?error=400");
                 exit();
             }
-            $product = ProductController::getProduct($_GET["id"]);
+            $s_method = OrderController::getShippingMethod($_GET["id"]);
         } elseif ($_GET["action"] != "create") {
             header("Location: error?error=400");
             exit();
         }
     }
     
-    $categories =  ProductController::getAllCategories();
-    $category_field = [];
-    foreach($categories as $category) {
-        $category_field[$category->name] = $category->id;
-        
-    }
+    
+    
     $form = new FormHandler(
-        "product_form",
+        "smethod_form",
         "",
         array(
-            new FormField("name", FieldType::Text, "Product Name", $_GET["action"] == "create" ? "" : $product->name),
-            new FormField("reference", FieldType::Text, "Reference", $_GET["action"] == "create" ? "" : $product->reference),
-            new FormField("description", FieldType::HtmlContent, "Full Description", $_GET["action"] == "create" ? "" : $product->description),
-            new FormField("short_description", FieldType::HtmlContent, "Short Description", $_GET["action"] == "create" ? "" : $product->short_description),
-            new FormField("quantity", FieldType::Number, "Quantity", $_GET["action"] == "create" ? "" : $product->quantity),
-            new FormField("vat_rate", FieldType::Text, "Vat Rate", $_GET["action"] == "create" ? "" : $product->vat_rate),
-            new FormField("unit_price", FieldType::Text, "Unit price", $_GET["action"] == "create" ? "19" : $product->unit_price),
-            new FormField("image", FieldType::Image, "Product Image", $_GET["action"] == "create" ? "" : $product->image),
-            new FormField("category_id", FieldType::StringEnumeration, "Category", $_GET["action"] == "create" ? "" : $product->category_id, $required = true, $category_field),
+            new FormField("name", FieldType::Text, "Category Name", $_GET["action"] == "create" ? "" : $s_method->name),
+            new FormField("extra_fee", FieldType::Text, "Extra Fee", $_GET["action"] == "create" ? "" : $s_method->name),
+            new FormField("active", FieldType::StringEnumeration, "Status", $_GET["action"] == "create" ? "1" : $s_method->active, $required = true, [
+              "Published" => 1,
+              "Not published"=> 0,
+              ]),
         )
     );
 
 
     if (isset($_POST[$form->form_id])) {
-      $error = AdminProductController::handleProductPostRequest($form, $_GET["action"]);
+      $error = AdminOrderController::handleShippingMethodPostRequest($form, $_GET["action"]);
       if ($_GET["action"] == 'create' && !$error) {
-          header('Location: products');
+          header('Location: shipping_methods');
           exit();
       }
   }
@@ -113,7 +105,7 @@
     $(function () {
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance, using default configuration.
-    CKEDITOR.replace('description')
+    CKEDITOR.replace('content')
     //bootstrap WYSIHTML5 - text editor
   })
 </script>

@@ -5,8 +5,10 @@
     use Handlers\FieldType;
     use Handlers\FormField;
 
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    include_once MODELS . "/Blog/Post.php";
+    include_once CONTROLLERS . "/StoreManagement/ProductController.php";
+    include_once MODELS . "/Store/Category.php";
+    $category = null;
+    include_once ADMINCONTROLLERS . "/StoreManagement/AdminProductController.php" ;
 
     if (!isset($_GET["action"])) {
         header("Location: error?error=400");
@@ -17,7 +19,7 @@
                 header("Location: error?error=400");
                 exit();
             }
-            $post = BlogController::getPost($_GET["id"]);
+            $category = ProductController::getCategory($_GET["id"]);
         } elseif ($_GET["action"] != "create") {
             header("Location: error?error=400");
             exit();
@@ -27,16 +29,25 @@
     
     
     $form = new FormHandler(
-        "post_form",
+        "category_form",
         "",
         array(
-            new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title),
-            new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content),
-            new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? "" : date_format(date_create($post->creation_date), 'Y-m-d'), 3),
-            new FormField("image_path", FieldType::File, "Image ", ""),
+            new FormField("name", FieldType::Text, "Category Name", $_GET["action"] == "create" ? "" : $category->name),
+            new FormField("active", FieldType::StringEnumeration, "Status", $_GET["action"] == "create" ? "" : $category->active, $required = true, [
+              "Published" => 1,
+              "Not published"=> 0,
+              ]),
         )
     );
 
+
+    if (isset($_POST[$form->form_id])) {
+      $error = AdminProductController::handlePostRequest($form, $_GET["action"]);
+      if ($_GET["action"] == 'create' && !$error) {
+          header('Location: categories');
+          exit();
+      }
+  }
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -50,12 +61,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Blog Post
+        Product Category
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Blog</a></li>
-        <li class="active">Post </li>
+        <li><a href="#">Store</a></li>
+        <li class="active">Category</li>
       </ol>
     </section>
 

@@ -3,9 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+    
+    include_once CONTROLLERS . "/OrderManagement/OrderController.php";
+    $orders = OrderController::getAllOrders();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -46,14 +46,14 @@
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($orders as $order) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
+                  <td><?= $order->id ?></td>
+                  <td><?= OrderController::loadCustomer($order->customer_id)->getFullName(); ?></td>
+                  <td> status </td>
                   <td>
-                      <a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> 
-                      <a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Print Order </a> 
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "order?action=edit&id=". $order->id ?>" > Edit </a> 
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "order?action=edit&id=". $order->id ?>" > Print Order </a> 
                 </td>
                   
                 </tr>

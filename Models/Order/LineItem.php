@@ -9,10 +9,8 @@ class LineItem extends Model {
     public $order_id;
     public $product_id;
     public $quantity;
-
-    public function getStatus(){
-        return array("color" => "", "Name" => "") ; 
-    }
+    public $total_ht;
+    public $vat;
 
 }
 

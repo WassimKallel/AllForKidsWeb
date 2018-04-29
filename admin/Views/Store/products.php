@@ -3,9 +3,10 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+    include_once MODELS . "/Store/Category.php";
+    include_once MODELS . "/Store/Product.php";
+    include_once CONTROLLERS . "/StoreManagement/ProductController.php";
+    $products = ProductController::getAllProducts();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -23,7 +24,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Store</a></li>
-        <li class="active">Orders </li>
+        <li class="active">Products </li>
       </ol>
     </section>
 
@@ -41,20 +42,27 @@
                 <thead>
                 <tr>
                   <th>id</th>
-                  <th>Product Name</th>
-                  <th>Available Quantity</th>
+                  <th>Reference</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Unit price</th>
+                  <th>Vat Rate</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($products as $product) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
+                  <td><?= $product->id ?></td>
+                  <td><?= $product->reference ?></td>
+                  <td><?= $product->name ?></td>
+                  <td><?= ProductController::getCategory($product->category_id)->name ?></td>
+                  <td><?= $product->unit_price . ' DT' ?></td>
+                  <td><?= $product->vat_rate ?></td>
                   <td>
-                      <a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> 
-                  </td>
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "product?action=edit&id=". $product->id ?>" > Edit </a> 
+                </td>
+                  
                 </tr>
         <?php } ?>
               </tbody>

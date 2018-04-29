@@ -123,6 +123,30 @@
                                             <span class="hover-image light-bg">
                                                 <img src="assets/img/product/cat-7.png" alt="">
                                             </span>
+                                            <img alt="product-img" src="assets/img/product/cat-1.png">
+                                            <div class="product-new">
+                                                <div class="blue-new-tag new-tag">
+                                                    <a href="#" class="funky-font">New</a>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="product-content">                                            
+                                            <div class="product-name">
+                                                <p class="sub-title-small"> <span class="pink-color">T-Shirt</span> (12)  </p>
+                                                <p> <a href="#">Noddy Hooded Sweatshirt Full Sleeves</a> </p>
+                                            </div>
+                                            <div class="product-price">
+                                                <a href="#" class="blue-btn btn">  view all </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4 grid-box">
+                                    <div class="product-details">
+                                        <div class="product-media light-bg">
+                                            <span class="hover-image light-bg">
+                                                <img src="assets/img/product/cat-7.png" alt="">
+                                            </span>
                                             <img alt="product-img" src="assets/img/product/cat-2.png">   
                                         </div>
                                         <div class="product-content">                                           
@@ -223,66 +247,7 @@
             </section>
             <!-- / Product Category Ends -->
 
-            <!-- Testimonials Slider Start -->
-            <section id="testimonials-slider" class="space-top-35">
-                <div class="bg2-with-mask space-35">
-                    <span class="blue-color-mask color-mask"></span>
-                    <div class="container theme-container">
-                        <div class="testimonials-wrap space-35">
-                            <div class="testimonials-slider">
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
 
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
-
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
-
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonials-slider-links">                
-                                <span class="prev slider-btn"  data-slide="prev">
-                                    <i class="fa fa-angle-left"></i>
-                                </span>
-                                <span class="next slider-btn"  data-slide="next">
-                                    <i class="fa fa-angle-right"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <img alt=".." class="blue-zig-zag" src="assets/img/pattern/ziz-zag.png">
-            </section>
             <?php include VIEWS . "/partial/footer.php" ; ?>
         </main>
     </body>
