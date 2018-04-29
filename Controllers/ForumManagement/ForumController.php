@@ -2,6 +2,7 @@
 include_once MODELS . "/Forum/Post.php";
 include_once MODELS . "/Forum/Thread.php";
 include_once MODELS . "/Forum/Topic.php";
+include_once MODELS . "/Forum/Vote.php";
 include_once MODELS . "/UserManagement/User.php";
 use \Core\ORM\Model;
 
@@ -75,4 +76,30 @@ class ForumController {
         return Topic::all();
     }
 
+    public static function vote($post_data) {
+        $vote = new Vote();
+        $vote->user_id = AuthenticationController::getCurrentUser()->id;
+        if($post_data) {
+            $vote->vote = $post_data['vote'];
+            $vote->post_id = $post_data['post_id'];
+            $vote->save();
+        }
+    }
+
+    public static function user_voted($post) {
+        if(AuthenticationController::$is_logged_in) {
+            $votes = Vote::sql('SELECT * FROM :table WHERE user_id = ? AND post_id = ?', array(AuthenticationController::getCurrentUser()->id, $post->id));
+            return (count($votes) > 0);
+        } 
+        return true;
+    }
+
+    public static function count_score($post) {
+        $votes = Vote::sql('SELECT * FROM :table WHERE post_id = ?', array($post->id));
+        $score = 0;
+        foreach ($votes as $vote) {
+            $score += $vote->vote;
+        }
+        return $score;
+    }
 }

@@ -4474,3 +4474,9 @@ button.close-btn:hover,button.close-btn:focus {
 .forum-role {
     font-size: 0.9em;
 }
+
+.vote {
+    text-align: center;
+    vertical-align:middle;
+    font-size: 1.3em !important;
+}
