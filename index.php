@@ -19,6 +19,7 @@
             include $file_path ;
         }
         else {
+            
             header("Location: error?code=404");
         }
     }

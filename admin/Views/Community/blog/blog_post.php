@@ -24,8 +24,6 @@
         }
     }
     
-    
-    
     $form = new FormHandler(
         "post_form",
         "",
