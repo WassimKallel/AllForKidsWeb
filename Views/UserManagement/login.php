@@ -2,7 +2,6 @@
 
 <?php
     if (isset($_POST["username"]) &&  isset($_POST["password"]) && isset($_POST["submit"]) ) {
-        var_dump("zeaze");
         $_AuthenticationController = new AuthenticationController();
         $is_valid_login = $_AuthenticationController->login($_POST["username"], $_POST["password"]); 
         if ($is_valid_login) {

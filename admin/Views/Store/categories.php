@@ -3,9 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+    include_once MODELS . "/Store/Category.php";
+    include_once CONTROLLERS . "/StoreManagement/ProductController.php";
+    $categories = ProductController::getAllCategories();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -23,7 +23,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Store</a></li>
-        <li class="active">Orders </li>
+        <li class="active">Categories </li>
       </ol>
     </section>
 
@@ -42,17 +42,19 @@
                 <tr>
                   <th>id</th>
                   <th>Name</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($categories as $category) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
+                  <td><?= $category->id ?></td>
+                  <td><?= $category->name ?></td>
+                  <td><?= $category->active == 0 ? "Not published" : "Published" ?></td>
+      
                   <td>
-                      <a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> 
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "category?action=edit&id=". $category->id ?>" > Edit </a> 
                 </td>
                   
                 </tr>

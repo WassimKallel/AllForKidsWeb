@@ -5,9 +5,9 @@
     use Handlers\FieldType;
     use Handlers\FormField;
 
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    include_once MODELS . "/Blog/Post.php";
-
+    include_once CONTROLLERS . "/StoreManagement/StoreController.php";
+    include_once MODELS . "/Store/Store.php";
+    include_once ADMINCONTROLLERS . "/StoreManagement/AdminStoreController.php";
     if (!isset($_GET["action"])) {
         header("Location: error?error=400");
         exit();
@@ -17,26 +17,30 @@
                 header("Location: error?error=400");
                 exit();
             }
-            $post = BlogController::getPost($_GET["id"]);
+            $store = BlogController::getPost($_GET["id"]);
         } elseif ($_GET["action"] != "create") {
             header("Location: error?error=400");
             exit();
         }
     }
     
-    
-    
     $form = new FormHandler(
-        "post_form",
+        "store_form",
         "",
         array(
-            new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title),
-            new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content),
-            new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? "" : date_format(date_create($post->creation_date), 'Y-m-d'), 3),
-            new FormField("image_path", FieldType::File, "Image ", ""),
+            new FormField("name", FieldType::Text, "Store Name", $_GET["action"] == "create" ? "" : $store->name),
+            new FormField("lon", FieldType::Text, "Longitude", $_GET["action"] == "create" ? "" : $store->content),
+            new FormField("lat", FieldType::Text, "Latitude", $_GET["action"] == "create" ? "" : date_format(date_create($store->creation_date), 'Y-m-d'), 3),
         )
     );
 
+    if (isset($_POST[$form->form_id])) {
+      $error = AdminStoreController::handlePostRequest($form, $_GET["action"]);
+      if ($_GET["action"] == 'create' && !$error) {
+          header('Location: stores');
+          exit();
+      }
+  }
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -54,8 +58,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Blog</a></li>
-        <li class="active">Post </li>
+        <li><a href="#">Store</a></li>
       </ol>
     </section>
 

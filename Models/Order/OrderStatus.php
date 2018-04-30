@@ -4,12 +4,14 @@
 use \Core\ORM\Model;
 class OrderStatus extends Enum {
 
-    const Cart = 0;
-    const OnCheckout = 1;
-    const OnShipping = 2;
-    const OnPayment = 3;
+    const ShoppingCart = 0;
+    const Checkout = 1;
+    const Shipping = 2;
+    const Payment = 3;
     const PaymentComplete = 4;
-    
+    const PendingVerification = 5;
+    const Canceled = 6;
+    const Refused = 7;
     
         
     public static function keys()

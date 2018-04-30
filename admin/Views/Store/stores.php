@@ -3,9 +3,9 @@
     use Handlers\FormHandler;
     use Handlers\FieldType;
     use Handlers\FormField;
-    include_once MODELS . "/Blog/Post.php";
-    include_once CONTROLLERS . "/BlogManagement/BlogController.php";
-    $posts = BlogController::getAllPosts();
+    include_once MODELS . "/Store/Store.php";
+    include_once CONTROLLERS . "/StoreManagement/StoreController.php";
+    $categories = StoreController::getAllStores();
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
@@ -13,18 +13,17 @@
 <div class="wrapper">
 
   <?php include VIEWS . "/partial/topmenu.php" ?>
-
   <?php include VIEWS . "/partial/sidebar.php" ?>
   <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Blog Post
+        Orders
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Blog</a></li>
-        <li class="active">Post </li>
+        <li><a href="#">Store</a></li>
+        <li class="active">Categories </li>
       </ol>
     </section>
 
@@ -36,23 +35,27 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-            <a href="post?action=create" class="btn btn-success fright">  Add new blog post </a>
+            <a href="store?action=create" class="btn btn-success fright">  Add new Store </a>
+
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Number Of Comments</th>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-        <?php foreach($posts as $post) {  ?>
+        <?php foreach($categories as $category) {  ?>
           <tr>
-                  <td><?= $post->title ?></td>
-                  <td><?= BlogController::loadAuthor($post)->getFullName() ?></td>
-                  <td><?= count(BlogController::getComments($post)) ?></td>
-                  <td><a class="btn btn-primary" href="<?= HOME_DIR . "blog_post?action=edit&id=". $post->id ?>" > Edit </a> </td>
+                  <td><?= $category->id ?></td>
+                  <td><?= $category->name ?></td>
+                  <td><?= $category->active == 0 ? "Not Active" : "Active" ?></td>
+      
+                  <td>
+                      <a class="btn btn-primary" href="<?= HOME_DIR . "store?action=edit&id=". $category->id ?>" > Edit </a> 
+                </td>
                   
                 </tr>
         <?php } ?>

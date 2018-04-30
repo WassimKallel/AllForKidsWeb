@@ -67,13 +67,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img  class="user-image" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
               <span class="hidden-xs"><?= AuthenticationController::getCurrentUser()->getFullName(); ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img  class="img-circle" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
 
                 <p>
                   <?= AuthenticationController::getCurrentUser()->getFullName(); ?> - <?= AuthenticationController::getCurrentUser()->getRole(); ?>

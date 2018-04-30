@@ -7,10 +7,12 @@ define("VIEWS", dirname(__FILE__). "/Views");
 define("CONTROLLERS", dirname(__FILE__). "/Controllers");
 define("MODELS", dirname(__FILE__). "/Models");
 define("HOME_DIR", "/AllForKidsWeb");
+
 include "Config/Init.inc.php";
 include "Core/PrettyDateTime.php";
 // initialize 
 DataBaseManager::initializeMapper();
+define("DATA_URL", $GLOBALS["AllForKids"]["data_folder"]);
 // User Management Initialization 
 include_once CONTROLLERS . "/UserManagement/AuthenticationController.php" ;
 include_once CONTROLLERS . "/UserManagement/RoleController.php" ;
