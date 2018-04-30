@@ -54,4 +54,7 @@
         public static function getUser($id) {
             return User::retrieveByPK($id);
         }
+        public static function getUsersByRole($role) {
+            return User::retrieveByField("role",$role);
+        }
     }

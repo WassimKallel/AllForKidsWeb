@@ -6,8 +6,9 @@
     use Handlers\FormField;
 
     include_once CONTROLLERS . "/BlogManagement/BlogController.php";
+    include_once CONTROLLERS . "/UserManagement/UserController.php";
     include_once MODELS . "/Blog/Post.php";
-
+    include_once ADMINCONTROLLERS . "/BlogManagement/AdminBlogController.php";
     if (!isset($_GET["action"])) {
         header("Location: error?error=400");
         exit();
@@ -23,18 +24,33 @@
             exit();
         }
     }
-    
+    $admin_users = UserController::getUsersByRole(Roles::Administrator);
+    $user_id_field = [];
+    foreach($admin_users as $admin_user){
+      $user_id_field[$admin_user->getFullName()] = $admin_user->id;
+    }
     $form = new FormHandler(
         "post_form",
         "",
         array(
-            new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title),
-            new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content),
-            new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? "" : date_format(date_create($post->creation_date), 'Y-m-d'), 3),
-            new FormField("image_path", FieldType::File, "Image ", ""),
+            new FormField("title", FieldType::Text, "Title", $_GET["action"] == "create" ? "" : $post->title, $required = true),
+            new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content,$required = true),
+            new FormField("user_id", FieldType::StringEnumeration, "Author", $_GET["action"] == "create" ? AuthenticationController::getCurrentUser()->id : $post->user_id, $required = true, $user_id_field),
+            new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? date_format(new DateTime("now"), 'Y-m-d') : date_format(date_create($post->creation_date), 'Y-m-d'), $required = true),
+            new FormField("image_path", FieldType::File, "Image ",  $_GET["action"] != "create" ? $post->image_path : ""),
+            new FormField("online", FieldType::StringEnumeration, "Status", $_GET["action"] == "create" ? "" : $post->online, $required = true, [
+              "Published" => 1,
+              "Not published"=> 0,
+              ]),
         )
     );
-
+    if (isset($_POST[$form->form_id])) {
+      $error = AdminBlogController::handlePostRequest($form, $_GET["action"]);
+      if ($_GET["action"] == 'create' && !$error) {
+          header('Location: blog_posts');
+          exit();
+      }
+  }
 ?>
 
 <?php include VIEWS . "/partial/header.php" ?>
