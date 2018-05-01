@@ -4480,3 +4480,7 @@ button.close-btn:hover,button.close-btn:focus {
     vertical-align:middle;
     font-size: 1.3em !important;
 }
+
+.cart-img {
+    padding: 0px !important;
+}

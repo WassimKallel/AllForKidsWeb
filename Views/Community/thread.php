@@ -75,7 +75,7 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                             <td class="post-avatar">
                                                 <div class="white-bg cart-img">
                                                     <a class="media-link" href="#">
-                                                        <img src="assets/img/cart/cart-1.png" alt="">
+                                                        <img src="<?= DATA_URL . ForumController::getPostAuthor($post)->avatar_path ?>" alt="">
                                                     </a> 
                                                 </div>
                                                 <div style="text-align: center;">
@@ -86,18 +86,23 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                                         <?= ForumController::getPostAuthor($post)->getRole(); ?>
                                                     </p>
                                                 </div>
+                                                <div class="shp-btn">
+                                                    <a id="report-<?= $post->id ?>" 
+                                                        <?= ForumController::isPostReportedbyConnectedUser($post) ? 'disabled' : 'onclick="report('. $post->id .')"' ?> 
+                                                        class="pink-btn btn"> Report </a>
+                                                </div>      
                                             </td>
                                             <td class="description">
-                                                <p> <?= $post->content ?></p>   
-                                                <div class="forum-post-meta" >                                   
+                                                <p> <?= ($post->reported) == 0 ? $post->content : 'Post reported for innapropriate content' ?></p>   
+                                                <div class="forum-post-meta" >
                                                     <p><?= PrettyDateTime::parse(new DateTime($post->creation_date)) ?></p>      
                                                 </div>                                       
                                             </td>
                                             <td class="vote">
-                                                <a id="upvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  '' :  'onclick="upvote('. $post->id .')"' ?> > <i class="fa fa-caret-up"></i></a>
+                                                <a id="upvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  'disabled' :  'onclick="upvote('. $post->id .')"' ?> > <i class="fa fa-caret-up"></i></a>
                                                 <p></p>
                                                 <p id="score-<?= $post->id ?>"><?= ForumController::count_score($post) ?></p>
-                                                <a id="downvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  '' :  'onclick="downvote('. $post->id .')"' ?> > <i class="fa fa-caret-down"></i></a>
+                                                <a id="downvote-<?= $post->id ?>" <?= ForumController::user_voted($post) ?  'disabled' :  'onclick="downvote('. $post->id .')"' ?> > <i class="fa fa-caret-down"></i></a>
                                             </td>
                                         </tr>
                                         <?php 
@@ -109,7 +114,7 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                         <tr>
                                             <td class="post-avatar">
                                                 <div class="white-bg cart-img">
-                                                    <a class="media-link" href="#"><img src="assets/img/cart/cart-1.png" alt=""></a> 
+                                                    <a class="media-link" href="#"><img src="<?=  DATA_URL . AuthenticationController::getCurrentUser()->avatar_path  ?>" alt=""></a> 
                                                 </div>
                                                 <div style="text-align: center;">
                                                 <p class="forum-user-name">
@@ -276,12 +281,23 @@ $currentTopic = ForumController::getThreadTopic($thread);
             $('#score-'+postID).text(parseInt($('#score-'+postID).text()) + 1);
             $('#upvote-'+postID).removeAttr("onclick");
             $('#downvote-'+postID).removeAttr("onclick");
+            $('#upvote-'+postID).attr("disabled", true);
+            $('#downvote-'+postID).attr("disabled", true);
         }
+
         function downvote(postID) {
             $.post( 'vote' , {"post_id" : postID, "vote": -1});
             $('#score-'+postID).text(parseInt($('#score-'+postID).text()) - 1);
             $('#upvote-'+postID).removeAttr("onclick");
             $('#downvote-'+postID).removeAttr("onclick");
+            $('#upvote-'+postID).attr("disabled", true);
+            $('#downvote-'+postID).attr("disabled", true);
+        }
+
+        function report(postID) {
+            $.post( 'report' , {"post_id" : postID});
+            $('#report-'+postID).attr("disabled", true);
+            $('#report-'+postID).removeAttr("onclick");
         }
     </script>
 

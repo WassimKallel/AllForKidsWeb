@@ -3,6 +3,7 @@ include_once MODELS . "/Forum/Post.php";
 include_once MODELS . "/Forum/Thread.php";
 include_once MODELS . "/Forum/Topic.php";
 include_once MODELS . "/Forum/Vote.php";
+include_once MODELS . "/Forum/Report.php";
 include_once MODELS . "/UserManagement/User.php";
 use \Core\ORM\Model;
 
@@ -101,5 +102,29 @@ class ForumController {
             $score += $vote->vote;
         }
         return $score;
+    }
+
+    public static function report($post_data) {
+        $post_id = $post_data['post_id'];
+        $post = Post::retrieveByPK($post_id);
+        if($post == null) {
+            return;
+        }
+        $report = new Report();
+        $report->user_id = AuthenticationController::getCurrentUser()->id;
+        $report->post_id = $post->id;
+        $report->treated = 0;
+        $report->save();
+    }
+
+    public static function isPostReportedbyConnectedUser($post) {
+        if(!AuthenticationController::$is_logged_in) {
+            return true;
+        }
+        $count = Model::sql(
+            'SELECT count(*) as all_count FROM report WHERE post_id = ? AND user_id =  ?',
+            array($post->id, AuthenticationController::getCurrentUser()->id)
+        )[0]->all_count;
+        return $count > 0;
     }
 }
