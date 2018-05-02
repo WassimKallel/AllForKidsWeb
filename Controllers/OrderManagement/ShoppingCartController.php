@@ -44,11 +44,20 @@ class ShoppingCartController {
     public static function getLineItems($order_id) {
         return LineItem::retrieveByField("order_id", $order_id);
     }
-    public static function createLineItemFromProduct($product_id,$order_id){
-        $line_item = new LineItem();
-        $line_item->product_id = $product_id;
-        $line_item->order_id = $order_id;
-        $line_item->save();
+    public static function createLineItemFromProduct($product_id,$order_id,$quantity){
+        $line_item = LineItem::retrieveByField("product_id",$product_id);
+        if(!empty($line_item) && isset($line_item[0]) && $line_item) {
+            $line_item[0]->quantity += $quantity;
+            $line_item[0]->save();
+        } else {
+            $line_item = new LineItem();
+            $line_item->product_id = $product_id;
+            $line_item->order_id = $order_id;
+            $line_item->quantity += $quantity;
+            $line_item->save();
+        }
+        
+
     }
     public static function deleteLineItem($line_id){
         $line_item = LineItem::retrieveByPK($line_id);
