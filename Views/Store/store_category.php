@@ -294,7 +294,7 @@
             </div>
             <!-- / Product Category Ends -->
         <?php include VIEWS . "/partial/footer.php" ; ?>
-        <script src="<?= $GLOBALS["AllForKids"]["home_url"] ?>Views/Store/add_to_cart.js"></script>
+
         </main>
     </body>
 
