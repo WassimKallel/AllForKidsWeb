@@ -190,9 +190,9 @@
                                                 </div>
                                             </div>
                                             <div class="product-overlay">
-                                                <a href="#" class="addcart blue-background fa fa-shopping-cart"></a>                                                                
-                                                <a href="#" class="likeitem green-background fa fa-heart"></a>
-                                                <a class="preview pink-background fa fa-eye" href="#product-preview" data-toggle="modal"></a>
+                                                <a href="" onclick="addToCart(<?= $product->id ?>) ;return;" class="addcart blue-background fa fa-shopping-cart"></a>                                                                
+                           
+                                                <a class="preview pink-background fa fa-eye" onclick="previewProduct(<?= $p->id ?>) ;return;"></a>
                                             </div>
                                         </div>
                                         <div class="product-content">
@@ -236,7 +236,7 @@
                                             </div>
                                             <div class="add-to-cart">
                                                 <a class="blue-btn btn" href="#"> <i class="fa fa-shopping-cart white-color"></i> Add to Cart</a>
-                                                <a class="btn default-btn" href="product?id=<?= $p->id ?> "> <i class="fa fa-eye"></i> </a>
+                                                <a class="btn default-btn" onclick="previewProduct(<?= $p->id ?>) ;return;" > <i class="fa fa-eye"></i> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -287,13 +287,15 @@
                                         </div>
                                     </div>
                                 </div>
-                </div>  
+                    </div>  
             </section>
+            <div id="modal_container">
+            
+            </div>
             <!-- / Product Category Ends -->
-
-
-
         <?php include VIEWS . "/partial/footer.php" ; ?>
+
         </main>
     </body>
+
 </html>

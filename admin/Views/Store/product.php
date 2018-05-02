@@ -42,11 +42,15 @@
             new FormField("description", FieldType::HtmlContent, "Full Description", $_GET["action"] == "create" ? "" : $product->description),
             new FormField("short_description", FieldType::HtmlContent, "Short Description", $_GET["action"] == "create" ? "" : $product->short_description),
             new FormField("quantity", FieldType::Number, "Quantity", $_GET["action"] == "create" ? "" : $product->quantity),
-            new FormField("vat_rate", FieldType::Text, "Vat Rate", $_GET["action"] == "create" ? "" : $product->vat_rate),
-            new FormField("unit_price", FieldType::Text, "Unit price", $_GET["action"] == "create" ? "19" : $product->unit_price),
+            new FormField("vat_rate", FieldType::Text, "Vat Rate", $_GET["action"] == "create" ? "19" : $product->vat_rate),
+            new FormField("unit_price", FieldType::Text, "Unit price", $_GET["action"] == "create" ? "" : $product->unit_price),
             new FormField("image", FieldType::Image, "Product Image", $_GET["action"] == "create" ? "" : $product->image),
             new FormField("category_id", FieldType::StringEnumeration, "Category", $_GET["action"] == "create" ? "" : $product->category_id, $required = true, $category_field),
-        )
+            new FormField("active", FieldType::StringEnumeration, "Status", $_GET["action"] == "create" ? "" : $product->active, $required = true, [
+              "Published" => 1,
+              "Not published"=> 0,
+              ]),
+            )
     );
 
 
