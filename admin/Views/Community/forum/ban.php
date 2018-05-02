@@ -1,10 +1,10 @@
 <?php
     RoleController::adminAccessGrantedWithRedirection();
     
-    include_once CONTROLLERS . "/ForumManagement/ForumController.php" ; 
+    include_once ADMINCONTROLLERS . "/ForumManagement/AdminForumController.php" ;
 
     if(isset($_POST) && isset($_POST['ids'])) {
-        ForumController::ban($_POST);
+        AdminForumController::ban($_POST);
     } else {
         echo "could not find data";
     } 
