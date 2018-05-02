@@ -1,7 +1,8 @@
 
 <?php
 
-use \Core\ORM\Model;
+
+use \Core\Enum; 
 class OrderStatus extends Enum {
 
     const ShoppingCart = 0;
