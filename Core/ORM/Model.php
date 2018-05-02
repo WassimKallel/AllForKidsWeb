@@ -511,7 +511,7 @@ class Model extends SerializableModel
         if ($this->isNew())
             throw new \Exception('Unable to delete object, record is new (and therefore doesn\'t exist in the database).');
 
-        $this->removeDependencies();
+    
 
         // build sql statement
         $sql = sprintf("DELETE FROM `%s`.`%s` WHERE `%s` = ?", self::getDatabaseName(), self::getTableName(), self::getTablePk());

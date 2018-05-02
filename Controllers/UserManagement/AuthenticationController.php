@@ -88,7 +88,7 @@ class AuthenticationController {
         $user_session->session_token = $token;
         $user_session->save();
     }
-    private function generateRandomString() {
+    public function generateRandomString() {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $string = '';

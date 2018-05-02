@@ -1,6 +1,8 @@
 
 
+<?php $current_user = AuthenticationController::getCurrentUser();
 
+?>
   <header class="main-header">
     <!-- Logo -->
     <a href="." class="logo">
@@ -67,13 +69,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img  class="user-image" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
+              <img  class="user-image" src="<?= $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
               <span class="hidden-xs"><?= AuthenticationController::getCurrentUser()->getFullName(); ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img  class="img-circle" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
+                <img  class="img-circle" src="<?= $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>">
 
                 <p>
                   <?= AuthenticationController::getCurrentUser()->getFullName(); ?> - <?= AuthenticationController::getCurrentUser()->getRole(); ?>

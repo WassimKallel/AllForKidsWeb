@@ -36,7 +36,7 @@
 
             <!-- /.box-header -->
             <div class="box-body pad">
-            <a href="blog_post?action=create" class="btn btn-success fright">  Add new Product </a>
+            <a href="product?action=create" class="btn btn-success fright">  Add new Product </a>
 
             <table id="posts_table" class="table table-bordered table-striped">
                 <thead>
