@@ -3,6 +3,7 @@ include_once MODELS . "/Forum/Post.php";
 include_once MODELS . "/Forum/Thread.php";
 include_once MODELS . "/Forum/Topic.php";
 include_once MODELS . "/Forum/Vote.php";
+include_once MODELS . "/Forum/Report.php";
 include_once MODELS . "/UserManagement/User.php";
 use \Core\ORM\Model;
 
@@ -101,5 +102,89 @@ class ForumController {
             $score += $vote->vote;
         }
         return $score;
+    }
+
+    public static function report($post_data) {
+        $post_id = $post_data['post_id'];
+        $post = Post::retrieveByPK($post_id);
+        if($post == null) {
+            return;
+        }
+        $report = new Report();
+        $report->user_id = AuthenticationController::getCurrentUser()->id;
+        $report->post_id = $post->id;
+        $report->treated = 0;
+        $report->save();
+    }
+
+    public static function isPostReportedbyConnectedUser($post) {
+        if(!AuthenticationController::$is_logged_in) {
+            return true;
+        }
+        $count = Model::sql(
+            'SELECT count(*) as all_count FROM report WHERE post_id = ? AND user_id =  ?',
+            array($post->id, AuthenticationController::getCurrentUser()->id)
+        )[0]->all_count;
+        return $count > 0;
+    }
+
+    public static function getReports() {
+        return Report::retrieveByField('treated', 0);        
+    }
+
+    public static function getReportedPost($report) {
+        return Post::retrieveByPK($report->post_id);
+    }
+
+    public static function unreport($post_data) {
+        $report_ids  = $post_data['ids'];
+        foreach ($report_ids as $report_id) {
+            $current_report = Report::retrieveByPK($report_id);
+            $reports = Report::retrieveByField("post_id", $current_report->post_id);
+            foreach ($reports as $report_to_treat) {
+                $report_to_treat->treated = 1;
+                $report_to_treat->save();
+            }
+        }
+    }
+
+
+    public static function ban($post_data) {
+        $users_to_ban = [];
+        $posts_to_report = [];
+        $report_ids  = $post_data['ids'];
+
+        foreach ($report_ids as $report_id) {
+            $current_report = Report::retrieveByPK($report_id);
+            array_push($posts_to_report, $current_report->post_id);
+        }
+
+        $posts_to_report = array_unique($posts_to_report);
+        
+        foreach ($posts_to_report as $post_id) {
+            $post = Post::retrieveByPK($post_id);
+            $treated_reports = Report::retrieveByField("post_id", $post_id);
+            foreach ($treated_reports as $report_to_treat) {
+                $report_to_treat->treated = 1;
+                $report_to_treat->save();
+            }
+            array_push($users_to_ban, $post->user_id);
+            $post->reported = 1;
+            $post->save();
+        }
+
+        $users_to_ban = array_unique($users_to_ban);
+
+        foreach ($users_to_ban as $user_id) {
+            $user = User::retrieveByPK($user_id);
+            $user->active = 0;
+            $user->save();
+            ForumController::notifyUserBan($user);
+        }
+    }
+
+
+    public static function notifyUserBan($user) {
+        echo "reported " . $user->getFullName();
     }
 }

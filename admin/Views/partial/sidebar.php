@@ -78,6 +78,7 @@
           <ul class="treeview-menu">
             <li><a href="forum_topics"><i class="fa fa-circle-o"></i> List Topics </a></li>
             <li><a href="forum_topic?action=create"><i class="fa fa-circle-o"></i> Add Topic </a></li>
+            <li><a href="moderation"><i class="fa fa-circle-o"></i> Moderation </a></li>
           </ul>
         </li>
 
