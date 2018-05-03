@@ -56,8 +56,6 @@ class ShoppingCartController {
             $line_item->quantity += $quantity;
             $line_item->save();
         }
-        
-
     }
     public static function deleteLineItem($line_id){
         $line_item = LineItem::retrieveByPK($line_id);

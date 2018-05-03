@@ -31,60 +31,9 @@
 
             <!-- Checkout  Start -->
             <section id="checkout" class="checkout-wrap"> 
-                <div class="theme-container container">     
-                    <div class="row">
-                        <div class="title-wrap space-bottom-25 col-sm-12">                                    
-                            <h2 class="section-title">
-                                <span>
-                                    <span class="funky-font blue-tag">Account</span> 
-                                    <span class="italic-font">Log In</span>
-                                </span>
-                            </h2> 
-                        </div>
-                        <div class="col-sm-4 col-md-5">
-                            <div class="login-wrap">
-                                <h2 class="title-2 sub-title-small">Sign In</h2>
-                                <form>                                    
-                                    <div class="form-group">
-                                        <input type="text" required="required" class="form-control" placeholder="Username or email">
-                                        <i class="blue-color fa fa-user"></i>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" required="required" class="form-control" placeholder="Password">
-                                        <i class="pink-color fa  fa-unlock-alt"></i>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="chk-box"><input type="checkbox" name="optradio">Keep me logged In</label>
-                                        <label class="forgot-pwd">
-                                            <a class="blue-color title-link" href="#">Forgot Password?</a>
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="blue-btn btn" type="submit">Login</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="register-wrap">
-                                <h2 class="title-2 sub-title-small">New User Here?</h2>
-                                <p class="italic-font">Registration is free and easy!</p>
-                                <ul>
-                                    <li>Faster checkout</li>
-                                    <li>Save multiple shipping addresses</li>
-                                    <li>View and track orders and more</li>
-                                </ul>
-                                <a class="pink-btn btn" href="#"> Create An Account </a>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-3">
-                            <div class="social-register-wrap">
-                                <h2 class="title-2 sub-title-small">Sign In With Social</h2>                              
-                                <a href="#" class="green-btn btn"> <i class="fa fa-facebook"></i> Sign in with Facebook</a>
-                                <a href="#" class="blue-btn btn"> <i class="fa fa-twitter"></i> Sign in with Twitter</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="theme-container container">  
+        
+                    <!-- Order Part -->
                     <div class="cart-collaterals space-40">
                         <div class="row">
                             <div class="title-wrap col-sm-12">                                    
@@ -188,6 +137,67 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /Order Part --> 
+                    <?php if(!AuthenticationController::$is_logged_in) { ?>  
+                    <!-- Login Part -->
+                    <div class="row">
+                        <div class="title-wrap space-bottom-25 col-sm-12">                                    
+                            <h2 class="section-title">
+                                <span>
+                                    <span class="funky-font blue-tag">Account</span> 
+                                    <span class="italic-font">Log In</span>
+                                </span>
+                            </h2> 
+                        </div>
+                        <div class="col-sm-4 col-md-5">
+                            <div class="login-wrap">
+                                <h2 class="title-2 sub-title-small">Sign In</h2>
+                                <form>                                    
+                                    <div class="form-group">
+                                        <input type="text" required="required" class="form-control" placeholder="Username or email">
+                                        <i class="blue-color fa fa-user"></i>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" required="required" class="form-control" placeholder="Password">
+                                        <i class="pink-color fa  fa-unlock-alt"></i>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="chk-box"><input type="checkbox" name="optradio">Keep me logged In</label>
+                                        <label class="forgot-pwd">
+                                            <a class="blue-color title-link" href="#">Forgot Password?</a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="blue-btn btn" type="submit">Login</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="register-wrap">
+                                <h2 class="title-2 sub-title-small">New User Here?</h2>
+                                <p class="italic-font">Registration is free and easy!</p>
+                                <ul>
+                                    <li>Faster checkout</li>
+                                    <li>Save multiple shipping addresses</li>
+                                    <li>View and track orders and more</li>
+                                </ul>
+                                <a class="pink-btn btn" href="#"> Create An Account </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <div class="social-register-wrap">
+                                <h2 class="title-2 sub-title-small">Sign In With Social</h2>                              
+                                <a href="#" class="green-btn btn"> <i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                                <a href="#" class="blue-btn btn"> <i class="fa fa-twitter"></i> Sign in with Twitter</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Login Part -->
+                    <?php }  else { ?>
+
+
+                    <!-- Shipping Part -->
                     <div class="row space-35">
                         <div class="col-md-6 col-sm-6">
                             <div class="title-wrap space-bottom-25">                                    
@@ -307,6 +317,9 @@
                             </div>                            
                         </div>  
                     </div>
+                    <!-- Shipping Part -->
+
+                    <!-- Payment Part-->
                     <div class="row space-top-20 margin-bottom-80">
                         <div class="title-wrap space-bottom-25 col-sm-12">                                    
                             <h2 class="section-title">
@@ -356,72 +369,12 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Payment Part -->
+                    <?php } ?>
                 </div>
             </section>
             <!-- / Checkout  Ends -->
 
-
-            <!-- Testimonials Slider Start -->
-            <section id="testimonials-slider">
-                <div class="bg2-with-mask space-35">
-                    <span class="blue-color-mask color-mask"></span>
-                    <div class="container theme-container">
-                        <div class="testimonials-wrap space-35">
-                            <div class="testimonials-slider">
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
-
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
-
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
-                                            <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
-
-                                        </div>
-                                        <div class="testimonials-content col-md-10 col-sm-8">
-                                            <p class="italic-font">--- Mauris in nisl justo. Integer dictum dolor at tortor dictum laoreet.  ut pharetra tortor. Phasellus rhoncus, dolor ac ornare tincidunt, tortor tellus finibus risus, vitae vehicula nulla risus at magna. Nunc sodales facilisis neque, Donec et aliquamo. Fusce libero sapien, egestas quis faucibus ornare...!! :) </p>
-                                            <h4>- Aditi Doe </h4>
-                                            <a class="italic-font" href="#">http://themeforest.net/user/jthemes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonials-slider-links">                
-                                <span class="prev slider-btn"  data-slide="prev">
-                                    <i class="fa fa-angle-left"></i>
-                                </span>
-                                <span class="next slider-btn"  data-slide="next">
-                                    <i class="fa fa-angle-right"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <img alt=".." class="blue-zig-zag" src="assets/img/pattern/ziz-zag.png">
-            </section>
-            <!-- / Testimonials Slider Ends -->
 
         <?php include VIEWS . "/partial/footer.php" ; ?>
         </main>
