@@ -2,6 +2,9 @@
 use \Core\ORM\DataBaseManager;
 use \Core\ORM\Model;
 
+use \PHPMailer\PHPMailer\PHPMailer;
+use \PHPMailer\PHPMailer\Exception;
+
 define("ROOT_DIR", dirname(__FILE__)."/../");
 define("VIEWS", dirname(__FILE__). "/Views");
 define("ADMINCONTROLLERS", dirname(__FILE__). "/Controllers");
@@ -21,6 +24,21 @@ include_once ADMINCONTROLLERS . "/Alert.php" ;
 $AuthController = new AuthenticationController();
 include_once MODELS . "/UserManagement/User.php";
 $GLOBALS["AuthController"] = $AuthController;
+
+
+require ROOT_DIR . '/vendor/autoload.php';
+
+$mail = new PHPMailer(true);             
+$mail->isSMTP();                                      // Set mailer to use SMTP
+$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+$mail->SMTPAuth = true;                               // Enable SMTP authentication
+$mail->Username = 'allforkids.fromscratch@gmail.com';                 // SMTP username
+$mail->Password = 'from_scratch';                           // SMTP password
+$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+$mail->Port = 587;                                    // TCP port to connect to
+$mail->setFrom('allforkids.fromscratch@gmail.com', 'AllForKids Forum');
+
+$GLOBALS["Mail"] = $mail;
 
 if (isset($_SESSION["uid"])  && isset($_SESSION["token"])) {
     $is_valid_session = $AuthController->checkSession($_SESSION["uid"],$_SESSION["token"]) ;
