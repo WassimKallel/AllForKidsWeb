@@ -18,8 +18,11 @@ function deleteLineItem(element,line_item_id){
   console.log(element)
     $.post("delete_line_item", {line_item_id : line_item_id})
     .success(function(data){
-      $("#" + element).remove()
-      $('#count').html($("tr[id^=line_]").length)
+      $.get("cart")
+      .success(function( data ) {
+        $("#cart_list").html(data)
+        $('#count').html($("tr[id^=line_]").length)
+      });
     }) 
 }
 

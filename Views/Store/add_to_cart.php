@@ -4,12 +4,14 @@
         include_once CONTROLLERS . '/OrderManagement/ShoppingCartController.php';
         $product = ProductController::getProduct($_POST["product_id"]);
         $order = ShoppingCartController::getShoppingCartOrder();
+   
         // handle addd to cart logic
         if($order === false ) {
             $order_id = ShoppingCartController::createShoppingCart();
         } else {
             $order_id = $order->id;
         }
+  
         ShoppingCartController::createLineItemFromProduct($_POST["product_id"],$order_id,$_POST["quantity"]);
 ?>
 <div class="modal fade" id="product-preview" tabindex="-1" role="dialog" aria-hidden="true">

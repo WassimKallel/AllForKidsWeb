@@ -1,3 +1,17 @@
+
+
+<?php
+$line_items = array();
+$shopping_cart = ShoppingCartController::getShoppingCartOrder();
+if ($shopping_cart){
+    $line_items = ShoppingCartController::getLineItems($shopping_cart->id);
+    include_once CONTROLLERS . "/StoreManagement/ProductController.php";
+} 
+$line_items_count = count($line_items);
+$total = 0;     
+include_once CONTROLLERS . "/OrderManagement/OrderController.php";
+$shipping_methods = OrderController::getAllSipphingMethods();
+?>
 <?php include VIEWS . "/partial/header.php" ; ?>
 
     <body id="home" class="wide">
@@ -33,6 +47,9 @@
             <section id="checkout" class="checkout-wrap"> 
                 <div class="theme-container container">  
         
+                <?php 
+                                    if($line_items_count > 0) {
+                                ?>   
                     <!-- Order Part -->
                     <div class="cart-collaterals space-40">
                         <div class="row">
@@ -54,10 +71,16 @@
                                                     <th>Product Name</th>                                                    
                                                     <th>QTY</th>
                                                     <th>Price</th> 
+                                                    <th>Vat Rate</th> 
+                                                    <th>Price TTC</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <!-- Looop here -->
+                                            <?php $total = 0; foreach($line_items as $line_item) {
+                                                
+                                                $product = ProductController::getProduct($line_item->product_id);
+                                                $total += $product->unit_price * $line_item->quantity  + $product->unit_price * $line_item->quantity * ($product->vat_rate * 0.01);
+                                                ?>
                                                 <tr>
                                                     <td class="image">
                                                         <div class="white-bg cart-img">
@@ -65,19 +88,20 @@
                                                         </div>
                                                     </td>
                                                     <td class="description">
-                                                        <a href="#">Noddy Hooded Sweatshirt Full Sleeves</a> 
-                                                        <p>Color : Red</p>
-                                                        <p>Size : 2-4 Year</p>
-                                                        <a href="#" class="remove pink-color"><i class="fa fa-times"></i> Remove </a>
+                                                        <a href="#"><?= $product->name ?></a> 
+                                                        <a href="" onclick="deleteLineItem('line_<?= $line_item->id ?>',<?= $line_item->id ?>); return" class="remove pink-color"><i class="fa fa-times"></i> Remove </a>
                                                     </td>                                                    
                                                     <td class="quantity">
                                                         <div class="quantity buttons-add-minus">
-                                                            02
+                                                           <?= $line_item->quantity ?>
                                                         </div>
                                                     </td>
-                                                    <td class="total"> <strong> $200 </strong> </td> 
+                                                    <td class=""> <strong> <?= $product->unit_price * $line_item->quantity  ?> DT HT </strong> </td> 
+                                                    <td class=""> <strong> <?= $product->vat_rate  ?>% </strong> </td> 
+                                                    <td class=""> <strong> <?= $product->unit_price * $line_item->quantity  + $product->unit_price * $line_item->quantity * ($product->vat_rate * 0.01)  ?> DT TTC </strong> </td> 
                                                 </tr>     
-                                                <!-- End loop   -->
+                                                
+                                                <?php }  ?>
                                             </tbody>                               
                                         </table>
                                         <div class="continue-shopping">
@@ -85,8 +109,8 @@
                                                 <a class="blue-btn btn" href="#">Continue Shopping<i class="fa fa-caret-right"></i></a>
                                             </div>
                                             <div class="cart-sub-total">
-                                                <span>Subtotal:</span>
-                                                <strong class="pink-color">$700</strong>
+                                                <span>Total:</span>
+                                                <strong class="pink-color"><?= $total ?> Dt TTC</strong>
                                             </div>
                                         </div>
                                     </form>
@@ -98,34 +122,18 @@
                                         <div class="title-wrap">
                                             <h2 class="section-title">
                                                 <span>
-                                                    <span class="funky-font blue-tag">Cupon </span>
-                                                    <span class="italic-font">code enter here</span>
+                                                    <span class="funky-font blue-tag">Resume </span>
                                                 </span>
                                             </h2>
-                                        </div>
-                                        <div class="newsletter-form">
-                                            <form class="newsletter">                                       
-                                                <div class="form-group col-sm-7 no-padding">                                     
-                                                    <label class="sr-only">Enter your coupon code</label>
-                                                    <input type="text" class="form-control" placeholder="Enter your coupon code">
-                                                </div>
-                                                <div class="form-group col-sm-5 no-padding">
-                                                    <button type="submit" class="blue-btn submit-btn btn">apply</button>
-                                                </div>                                        
-                                            </form>                                           
                                         </div>
                                         <table class="cart_totals">
                                             <tr>
                                                 <th>Subtotal:</th>
-                                                <td><strong>$700</strong></td>
+                                                <td><strong><?= $total ?> </strong> DT Ht</td>
                                             </tr>
                                             <tr>
                                                 <th>Shipping Cost :</th>
-                                                <td><strong>$20</strong></td>
-                                            </tr>
-                                            <tr class="cupon-off">
-                                                <th>Cupon off :</th>
-                                                <td><strong class="blue-color">-$50</strong></td>
+                                                <td><strong id="shipping_cost">0</strong> Dt HT</td>
                                             </tr>
                                             <tr class="grand-total">
                                                 <th>Total :</th>
@@ -137,8 +145,18 @@
                             </div>
                         </div>
                     </div>
+
+
                     <!-- /Order Part --> 
-                    <?php if(!AuthenticationController::$is_logged_in) { ?>  
+                                    <?php } else {
+                                        ?>
+                                                         <div class="alert alert-danger" role="alert">
+        Your shopping cart is empty
+    </div>
+                                        
+                                        <?php
+                                    } ?>
+                    <?php if(!AuthenticationController::$is_logged_in ) { ?>  
                     <!-- Login Part -->
                     <div class="row">
                         <div class="title-wrap space-bottom-25 col-sm-12">                                    
@@ -162,7 +180,6 @@
                                         <i class="pink-color fa  fa-unlock-alt"></i>
                                     </div>
                                     <div class="form-group">
-                                        <label class="chk-box"><input type="checkbox" name="optradio">Keep me logged In</label>
                                         <label class="forgot-pwd">
                                             <a class="blue-color title-link" href="#">Forgot Password?</a>
                                         </label>
@@ -179,82 +196,19 @@
                                 <p class="italic-font">Registration is free and easy!</p>
                                 <ul>
                                     <li>Faster checkout</li>
-                                    <li>Save multiple shipping addresses</li>
-                                    <li>View and track orders and more</li>
+                                    <li>Save your shopping cart after sign out</li>
                                 </ul>
-                                <a class="pink-btn btn" href="#"> Create An Account </a>
+                                <a class="pink-btn btn" href="register"> Create An Account </a>
                             </div>
-                        </div>
-                        <div class="col-sm-4 col-md-3">
-                            <div class="social-register-wrap">
-                                <h2 class="title-2 sub-title-small">Sign In With Social</h2>                              
-                                <a href="#" class="green-btn btn"> <i class="fa fa-facebook"></i> Sign in with Facebook</a>
-                                <a href="#" class="blue-btn btn"> <i class="fa fa-twitter"></i> Sign in with Twitter</a>
-                            </div>
-                        </div>
+                            <br/><br/><br/><br/><br/><br/><br/><br/>
                     </div>
                     <!-- /Login Part -->
-                    <?php }  else { ?>
+                    <?php }  else if ($line_items_count > 0) { ?>
 
 
                     <!-- Shipping Part -->
                     <div class="row space-35">
-                        <div class="col-md-6 col-sm-6">
-                            <div class="title-wrap space-bottom-25">                                    
-                                <h2 class="section-title">
-                                    <span>
-                                        <span class="funky-font blue-tag"> Delivery </span> 
-                                        <span class="italic-font">address</span>
-                                    </span>
-                                </h2> 
-                            </div>
-                            <form action="#" class="form-delivery">
-                                <div class="row"> 
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="First Name"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Last Name"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Address 1"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Address 2"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group selectpicker-wrapper">                                
-                                            <select class="selectpicker input-price" data-live-search="true" data-width="100%" data-toggle="tooltip" title="Country">
-                                                <option>Country</option>
-                                                <option>Country</option>
-                                                <option>Country</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group selectpicker-wrapper">
-                                            <select class="selectpicker input-price" data-live-search="true" data-width="100%" data-toggle="tooltip" title="City">
-                                                <option>City</option>
-                                                <option>City</option>
-                                                <option>City</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Postcode/ZIP"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Email"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Phone Number"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group"><textarea class="form-control" placeholder="Addıtıonal Informatıon" name="name" cols="30" rows="10"></textarea></div>
-                                    </div>       
-                                </div>
-                            </form>                    
-                        </div>                        
+                                            
                         <div class="col-md-6 col-sm-6">
                             <div class="title-wrap space-bottom-20">                                    
                                 <h2 class="section-title">
@@ -264,53 +218,11 @@
                                     </span>
                                 </h2> 
                             </div>
-                            <div class="form-group">
-                                <label class="checkbox-inline">
-                                    <input id="diff-address" type="checkbox"> Ship to a different address? 
-                                </label>
-                            </div>
-                            <form action="#" class="form-delivery-different">
-                                <div class="row">                              
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="First Name"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Last Name"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Address 1"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Address 2"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group selectpicker-wrapper">                                
-                                            <select class="selectpicker input-price" data-live-search="true" data-width="100%" data-toggle="tooltip" title="Country">
-                                                <option>Country</option>
-                                                <option>Country</option>
-                                                <option>Country</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group selectpicker-wrapper">
-                                            <select class="selectpicker input-price" data-live-search="true" data-width="100%" data-toggle="tooltip" title="City">
-                                                <option>City</option>
-                                                <option>City</option>
-                                                <option>City</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Postcode/ZIP"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Email"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group"><input class="form-control" type="text" placeholder="Phone Number"></div>
-                                    </div>                                
-                                </div>
+                            <form id="delivery">
+                                <input type="radio" name="shipping_button" value="0" /> Get it From one of our Stores  <br />
+                                <?php foreach($shipping_methods as $shipping_method) { ?>
+                                <input type="radio" name="shipping_button" value="<?= $shipping_method->id ?>" /> Specific Address Using : <strong> <?= $shipping_method->name ?> </strong> <br />
+                        <?php } ?>
                             </form>
                             <div class="form-group">
                                 <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery." name="name" cols="30" rows="7"></textarea>
@@ -349,16 +261,7 @@
                                         <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
                                     </div>
                                 </li>
-                                <li class="payment_method_paypal">                                    
-                                    <label id="paypal-transfer" for="payment_method_paypal">
-                                        <input id="payment_method_paypal" type="radio" class="input-radio" name="payment_method" value="paypal"  data-order_button_text="Proceed to PayPal" />
-                                        PayPal <img src="../../../www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png" alt="PayPal Acceptance Mark" />
-                                        <a href="#" class="about_paypal"   title="What is PayPal?">What is PayPal?    </a>
-                                    </label><br>
-                                    <div class="paypal-transfer-msg payment_box msg-box payment_method_paypal" style="display:none;">
-                                        <p>Pay via PayPal; you can pay with your credit card if you don&#8217;t have a PayPal account.</p>
-                                    </div>
-                                </li>
+                                
                             </ul>
 
                             <div class="form-row place-order">
