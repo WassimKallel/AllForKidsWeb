@@ -1,6 +1,7 @@
 
 
 <?php
+
 $line_items = array();
 $shopping_cart = ShoppingCartController::getShoppingCartOrder();
 if ($shopping_cart){
@@ -11,13 +12,15 @@ $line_items_count = count($line_items);
 $total = 0;     
 include_once CONTROLLERS . "/OrderManagement/OrderController.php";
 $shipping_methods = OrderController::getAllSipphingMethods();
+
+if(isset($_POST["checkout_submit"])) {
+    OrderController::handleCheckout();
+}
 ?>
 <?php include VIEWS . "/partial/header.php" ; ?>
 
     <body id="home" class="wide">
-
         <!-- WRAPPER -->
-
         <main class="wrapper"> 
         <?php include VIEWS . "/partial/menu.php" ; ?>
 
@@ -33,7 +36,7 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                 <span class="italic-font">Out</span>
                             </span>
                         </h2>
-                        <h3 class="sub-title"> listed products in your cart</h3>
+                        <h3 class="sub-title"> Your Shopping Cart</h3>
                         <hr class="dash-divider">
                         <ol class="breadcrumb breadcrumb-menubar">
                             <li><a href="#">Home</a>  > <span class="blue-color">Checkout</span> </li>                             
@@ -76,10 +79,11 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php $total = 0; foreach($line_items as $line_item) {
+                                            <?php $total = 0; 
+                                            foreach($line_items as $line_item) {
                                                 
                                                 $product = ProductController::getProduct($line_item->product_id);
-                                                $total += $product->unit_price * $line_item->quantity  + $product->unit_price * $line_item->quantity * ($product->vat_rate * 0.01);
+                                                $total += ($product->unit_price * $line_item->quantity)  + ($product->unit_price * $line_item->quantity * ($product->vat_rate * 0.01));
                                                 ?>
                                                 <tr>
                                                     <td class="image">
@@ -96,9 +100,9 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                                            <?= $line_item->quantity ?>
                                                         </div>
                                                     </td>
-                                                    <td class=""> <strong> <?= $product->unit_price * $line_item->quantity  ?> DT HT </strong> </td> 
+                                                    <td class=""> <strong> <?= $product->unit_price  ?> DT HT </strong> </td> 
                                                     <td class=""> <strong> <?= $product->vat_rate  ?>% </strong> </td> 
-                                                    <td class=""> <strong> <?= $product->unit_price * $line_item->quantity  + $product->unit_price * $line_item->quantity * ($product->vat_rate * 0.01)  ?> DT TTC </strong> </td> 
+                                                    <td class=""> <strong> <?= $product->unit_price   + $product->unit_price  * ($product->vat_rate * 0.01)  ?> DT TTC </strong> </td> 
                                                 </tr>     
                                                 
                                                 <?php }  ?>
@@ -106,7 +110,7 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                         </table>
                                         <div class="continue-shopping">
                                             <div class="shp-btn">
-                                                <a class="blue-btn btn" href="#">Continue Shopping<i class="fa fa-caret-right"></i></a>
+                                                <a class="blue-btn btn" href="store">Continue Shopping<i class="fa fa-caret-right"></i></a>
                                             </div>
                                             <div class="cart-sub-total">
                                                 <span>Total:</span>
@@ -119,7 +123,7 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                             <div class="col-md-4 col-sm-5">
                                 <div class="light-bg default-box-shadow cart_totals_wrap">                                 
                                     <div class="cart_totals_box">
-                                        <div class="title-wrap">
+                                        <div class="title-wrap">hopping cart is empty
                                             <h2 class="section-title">
                                                 <span>
                                                     <span class="funky-font blue-tag">Resume </span>
@@ -133,11 +137,11 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                             </tr>
                                             <tr>
                                                 <th>Shipping Cost :</th>
-                                                <td><strong id="shipping_cost">0</strong> Dt HT</td>
+                                                <td><strong id="shipping_cost">0</strong> Dt TTC</td>
                                             </tr>
                                             <tr class="grand-total">
                                                 <th>Total :</th>
-                                                <td><strong class="pink-color">$670</strong></td>
+                                                <td><strong class="pink-color" id="total_price" ><?= $total ?> </strong> DT TTC</td>
                                             </tr>
                                         </table>                                       
                                     </div>                                    
@@ -148,13 +152,21 @@ $shipping_methods = OrderController::getAllSipphingMethods();
 
 
                     <!-- /Order Part --> 
-                                    <?php } else {
+                                    <?php } else if(isset($_SESSION["checkout_complte"]) && $_SESSION["checkout_complte"] == true) {
                                         ?>
-                                                         <div class="alert alert-danger" role="alert">
-        Your shopping cart is empty
-    </div>
-                                        
+                                <div class="alert alert-success" role="alert">
+                                     Checkout Complete
+                                </div>
+ 
                                         <?php
+                                 unset($_SESSION["checkout_complte"]) ;
+                                 } else {
+                                        ?>
+   <div class="alert alert-danger" role="alert">
+                                        Your shopping cart is empty
+                                </div>
+
+                                    <?php
                                     } ?>
                     <?php if(!AuthenticationController::$is_logged_in ) { ?>  
                     <!-- Login Part -->
@@ -169,35 +181,18 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                         </div>
                         <div class="col-sm-4 col-md-5">
                             <div class="login-wrap">
-                                <h2 class="title-2 sub-title-small">Sign In</h2>
+                            
                                 <form>                                    
+                                <h2 class="title-2 sub-title-small">Sign In</h2>
                                     <div class="form-group">
-                                        <input type="text" required="required" class="form-control" placeholder="Username or email">
-                                        <i class="blue-color fa fa-user"></i>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" required="required" class="form-control" placeholder="Password">
-                                        <i class="pink-color fa  fa-unlock-alt"></i>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="forgot-pwd">
-                                            <a class="blue-color title-link" href="#">Forgot Password?</a>
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="blue-btn btn" type="submit">Login</button>
+                                        <a class="blue-btn btn" href="#login-register" data-toggle="modal">Login</a>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="register-wrap">
-                                <h2 class="title-2 sub-title-small">New User Here?</h2>
-                                <p class="italic-font">Registration is free and easy!</p>
-                                <ul>
-                                    <li>Faster checkout</li>
-                                    <li>Save your shopping cart after sign out</li>
-                                </ul>
+                            <h2 class="title-2 sub-title-small">Register</h2>
                                 <a class="pink-btn btn" href="register"> Create An Account </a>
                             </div>
                             <br/><br/><br/><br/><br/><br/><br/><br/>
@@ -205,7 +200,7 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                     <!-- /Login Part -->
                     <?php }  else if ($line_items_count > 0) { ?>
 
-
+<form method="post" >   
                     <!-- Shipping Part -->
                     <div class="row space-35">
                                             
@@ -218,14 +213,15 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                                     </span>
                                 </h2> 
                             </div>
-                            <form id="delivery">
-                                <input type="radio" name="shipping_button" value="0" /> Get it From one of our Stores  <br />
+                           
+                                <input type="radio" name="shipping_radio" value="0" /> Get it From one of our Stores  <br />
                                 <?php foreach($shipping_methods as $shipping_method) { ?>
-                                <input type="radio" name="shipping_button" value="<?= $shipping_method->id ?>" /> Specific Address Using : <strong> <?= $shipping_method->name ?> </strong> <br />
+                                <input type="radio" name="shipping_radio" value="<?= $shipping_method->id ?>" /> Specific Address Using : <strong> <?= $shipping_method->name ?> </strong> <br />
                         <?php } ?>
-                            </form>
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery." name="name" cols="30" rows="7"></textarea>
+                
+                            <div class="form-group" style="display:none"  id="address_field">
+                            <label class="form_label"> Delivery Address:  </label>
+                                <textarea  class="form-control"  placeholder="Please enter your delivery Address" name="delivery_address" cols="30" rows="7"></textarea>
                             </div>                            
                         </div>  
                     </div>
@@ -267,11 +263,12 @@ $shipping_methods = OrderController::getAllSipphingMethods();
                             <div class="form-row place-order">
                                 <a class="blue-btn btn" href="index-2.html">Home Page</a>                            
                                 <label class="green-btn btn" >
-                                    <input type="submit" class="button alt " name="woocommerce_checkout_place_order" id="place_order" value="Place order" data-value="Place order" />
+                                    <input type="submit" class="button alt " name="checkout_submit" id="place_order" value="Place order" data-value="Place order" />
                                 </label>
                             </div>
                         </div>
                     </div>
+                    </form>
                     <!-- Payment Part -->
                     <?php } ?>
                 </div>

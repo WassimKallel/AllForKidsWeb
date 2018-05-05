@@ -6,13 +6,10 @@ use \Core\Enum;
 class OrderStatus extends Enum {
 
     const ShoppingCart = 0;
-    const Checkout = 1;
-    const Shipping = 2;
-    const Payment = 3;
-    const PaymentComplete = 4;
-    const PendingVerification = 5;
-    const Canceled = 6;
-    const Refused = 7;
+    const PaymentComplete = 1;
+    const Canceled = 2;
+    const Refused = 3;
+    const Completed = 4;
     
         
     public static function keys()

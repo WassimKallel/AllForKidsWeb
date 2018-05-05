@@ -3,6 +3,7 @@
     include_once MODELS . "/Order/LineItem.php";
     include_once MODELS . "/Order/ShippingMethod.php";
     include_once MODELS . "/Order/OrderStatus.php";
+    include_once MODELS . "/Store/Product.php";
 
 class ShoppingCartController {
 
@@ -25,12 +26,8 @@ class ShoppingCartController {
         if(AuthenticationController::$is_logged_in) {
             $orders = Order::sql("SELECT * from `:table` Where customer_id = ? and order_status = ? ;" ,array(AuthenticationController::getCurrentUser()->id, OrderStatus::ShoppingCart)); 
             
-            
-         
             if(!empty($orders)){
-                $order_from_session = ShoppingCartController::getShoppingCartOrder();
-            
-                
+                $order_from_session = ShoppingCartController::getShoppingCartOrder();    
                 if($order_from_session != false && $order_from_session->id != $orders[0]->id) {
                     foreach(ShoppingCartController::getLineItems($orders[0]->id) as $line_item) {
                         $line_item->order_id = $order_from_session->id;
@@ -69,7 +66,7 @@ class ShoppingCartController {
             return false;
         }
     }
-    public static function createShoppingCart(){
+    public static function createShoppingCart() {
         $order = new Order();
         if(AuthenticationController::$is_logged_in){
          AuthenticationController::getCurrentUser()->is_customer = 1;
@@ -85,17 +82,24 @@ class ShoppingCartController {
     public static function getLineItems($order_id) {
         return LineItem::retrieveByField("order_id", $order_id);
     }
-    public static function createLineItemFromProduct($product_id,$order_id,$quantity){
+
+    public static function createLineItemFromProduct($product_id,$order_id,$quantity) {
         $line_item = LineItem::retrieveByField("product_id",$product_id);
+        $product = Product::retrieveByPK($product_id);
         if(!empty($line_item) && isset($line_item[0]) && $line_item) {
             $line_item[0]->quantity += $quantity;
+            $line_item[0]->product_id = $product_id;
             $line_item[0]->order_id = $order_id;
+            $line_item[0]->total = $product->unit_price *  $quantity;
+            $line_item[0]->vat =   $product->vat_rate;
             $line_item[0]->save();
         } else {
             $line_item = new LineItem();
             $line_item->product_id = $product_id;
             $line_item->order_id = $order_id;
             $line_item->quantity += $quantity;
+            $line_item->total = $product->unit_price  * $quantity;
+            $line_item->vat =   $product->vat_rate;
             $line_item->save();
         }
     }
@@ -106,7 +110,7 @@ class ShoppingCartController {
         createShoppingCart::deleteOrderIfNoItems($order_id);
 
     }   
-    
+
     public static function deleteOrderIfNoItems($order_id) {
         $line_items = LineItem::retrieveByField("order_id",$order_id);
         if(empty($line_items)) {
@@ -114,13 +118,9 @@ class ShoppingCartController {
             $order->delete();
         }
     }
-    public static function handleShippingFormRequest() {
-        
-    }
+
     
-    public static function handlepaymentFormRequest() {
-        
-    }
+
     
 }
 
