@@ -84,7 +84,7 @@ class ShoppingCartController {
     }
 
     public static function createLineItemFromProduct($product_id,$order_id,$quantity) {
-        $line_item = LineItem::retrieveByField("product_id",$product_id);
+        $line_item = LineItem::sql("SELECT * FROM :table WHERE product_id = ? and order_id = ? ", array($product_id,$order_id));
         $product = Product::retrieveByPK($product_id);
         if(!empty($line_item) && isset($line_item[0]) && $line_item) {
             $line_item[0]->quantity += $quantity;

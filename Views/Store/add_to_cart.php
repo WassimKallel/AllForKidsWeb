@@ -7,6 +7,7 @@
    
         // handle addd to cart logic
         if($order === false ) {
+            var_dump("test");
             $order_id = ShoppingCartController::createShoppingCart();
         } else {
             $order_id = $order->id;
