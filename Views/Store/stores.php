@@ -1,85 +1,48 @@
 
 
-<?php
 
-    if (isset($_POST["username"]) &&  isset($_POST["password"]) && isset($_POST["submit"]) ) {
-        $_AuthenticationController = new AuthenticationController();
-        $is_valid_login = $_AuthenticationController->login($_POST["username"], $_POST["password"]); 
-        if ($is_valid_login) {
-            AuthenticationController::$current_user = User::retrieveByField("username",$_POST["username"])[0];
-            AuthenticationController::$is_logged_in = True;
-            ShoppingCartController::handleShoppingCartOnLogin();        
-        } else {
-           header("Location: login?login_error=403");
+    <?php include_once CONTROLLERS . "/StoreManagement/StoreController.php";
+    
+        $stores = StoreController::getAllStores();
+        if (empty($stores)) {
+            header('Location: ' . ERROR . 404);
+            exit();
         }
-    }
-?>
-<?php 
-    if (!$GLOBALS["AuthController"]::$is_logged_in) {
-        if (isset($_GET["login_error"])) {
-            $error = "Your Password/Email Combination is wrong, Please try again"; 
-        }
-    }
-    else {
-        header("Location: .");
-    }
-?>
+    ?>
+
 <?php include VIEWS . "/partial/header.php" ?>
-
     <body id="home" class="wide">
+
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+
+
+
         <!-- WRAPPER -->
         <main class="wrapper"> 
     <?php include VIEWS ."/partial/menu.php" ?>
 
+            <!-- CONTENT AREA -->
 
             <!-- Breadcrumbs Start -->
             <section class="breadcrumb-bg margin-bottom-80">     
                 <span class="gray-color-mask color-mask"></span>
                 <div class="theme-container container">
                     <div class="site-breadcrumb relative-block space-75">
-
-                        <h3 class="sub-title"> Login to your account </h3>
+                        <h3 class="sub-title"> Our Stores and Partners</h3>
                         <hr class="dash-divider">
 
                     </div>  
                 </div>
             </section>
             <!-- / Breadcrumbs Ends -->
-
-            <article  class="container theme-container"> 
-                <div class="row">
-                    <!-- Posts Start -->
-                    <aside class="col-md-12 col-sm-8 space-bottom-20">
-                    <?php if (isset($error)) { ?>
-                    <div class="alert alert-danger" role="alert">
-                       <?= $error ?>
-                        </div>
-                    <?php } ?>
-                        <div class="account-details-wrap">
-                            <div class="title-2 sub-title-small">  Login </div>
-                            <div class="account-box  light-bg default-box-shadow">
-                                <form action="" method="post" class="form-delivery">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group"><input type="text" class="form-control" name="username" placeholder="username" required="required"></div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group"><input  name="password" type="password" class="form-control" placeholder="password"  required="required"></div>
-                                        </div>                                                                                                 
-                                        <div class="col-md-12 col-sm-12">
-                                            <label class="pink-btn btn">
-                                                <input type="submit" value="Login" name="submit">
-                                            </label>                                            
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>                                                    
-                    </aside>
-                    <!-- Posts Ends -->      
-                </div>
-            </article>
-
+            <div class="container"> 
+            <div  id="map"></div>
+            </div>
 
             <!-- Testimonials Slider Start -->
             <section id="testimonials-slider" class="space-top-35">
@@ -103,7 +66,7 @@
                                 </div>
                                 <div class="item">
                                     <div class="row">
-                                        <div class="testimonials-img col-md-1 col-sm-2">
+                                    store <div class="testimonials-img col-md-1 col-sm-2">
                                             <a class="" href="#"><img  src="assets/img/partners/testimonials.png" alt=""> </a>
 
                                         </div>
@@ -146,8 +109,32 @@
             <!-- / CONTENT AREA -->
 
   <?php include VIEWS .  "/partial/footer.php" ; ?>
-    
 
+  <script>
+      function initMap() {
+      
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: <?= $stores[0]->lat ?>, lng:  <?= $stores[0]->lon ?>}
+        });
+    <?php  foreach ($stores as $store) {
+        ?>
+        var marker = new google.maps.Marker({
+          position: {lat: <?= $store->lat ?>, lng:  <?= $store->lon ?>},
+          map: map,
+          animation: google.maps.Animation.DROP,
+          title:' <?= $store->name ?>'
+        });
+    <?php
+    } ?>
+
+        
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATCnmAf602MZxllInpqlfNzixAr03iXbY&callback=initMap">
+    </script>
         </main>
 
 

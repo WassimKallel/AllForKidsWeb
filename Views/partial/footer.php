@@ -112,3 +112,4 @@
         <script src="assets/plugins/countdown/jquery.countdown.min.js"></script>
         <script src="assets/js/theme.js"></script>
         <script src="<?= $GLOBALS["AllForKids"]["home_url"] ?>Views/Store/add_to_cart.js"></script>
+        <script src="<?= $GLOBALS["AllForKids"]["home_url"] ?>Views/Store/checkout.js"></script>

@@ -46,8 +46,6 @@ $total = 0;
                                                     <li><a href="admin">Admin Dashboard</a></li>
                                                 <?php } ?>
                                                 <li><a href="logout">Logout</a></li>
-                             
-
                                                 <?php } else {
                                                     ?>
                                                 <li><a href="#login-register" data-toggle="modal">Register/Login</a></li>

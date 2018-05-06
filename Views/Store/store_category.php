@@ -1,5 +1,6 @@
 
 <?php
+
     include_once CONTROLLERS  . "/StoreManagement/ProductController.php";
     if(isset($_GET['p']) && $_GET['p'] > 0) {
         $current_page = $_GET['p'];

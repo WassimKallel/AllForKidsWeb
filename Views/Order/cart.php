@@ -19,7 +19,7 @@ $total = 0;
                                             <tbody>
                                             <?php foreach($line_items as $line_item) {
                                                 $product = ProductController::getProduct($line_item->product_id);
-                                                $total = $product->unit_price * $line_item->quantity ;
+                                                $total += $product->unit_price * $line_item->quantity ;
                                                 ?>
                                                 <tr id="line_<?= $line_item->id ?>">
                                                     <td>
