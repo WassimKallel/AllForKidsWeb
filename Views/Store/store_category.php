@@ -290,9 +290,7 @@
                                 </div>
                     </div>  
             </section>
-            <div id="modal_container">
-            
-            </div>
+          
             <!-- / Product Category Ends -->
         <?php include VIEWS . "/partial/footer.php" ; ?>
 

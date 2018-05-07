@@ -13,7 +13,7 @@ class ProductController {
         return Category::retrieveByPK($id);
     }
     public static function getAllProducts() {
-        return  Product::all();
+        return  Product::sql("SELECT * FROM :table order by id desc");
      }
      public static function getProduct($id){
          return Product::retrieveByPK($id);
