@@ -1,7 +1,4 @@
-
-
-
-    <?php include_once CONTROLLERS . "/StoreManagement/StoreController.php";
+<?php include_once CONTROLLERS . "/StoreManagement/StoreController.php";
     
         $stores = StoreController::getAllStores();
         if (empty($stores)) {
@@ -9,7 +6,6 @@
             exit();
         }
     ?>
-
 <?php include VIEWS . "/partial/header.php" ?>
     <body id="home" class="wide">
 
@@ -19,9 +15,6 @@
         width: 100%;
        }
     </style>
-
-
-
         <!-- WRAPPER -->
         <main class="wrapper"> 
     <?php include VIEWS ."/partial/menu.php" ?>
@@ -128,18 +121,12 @@
         });
     <?php
     } ?>
-
-        
       }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATCnmAf602MZxllInpqlfNzixAr03iXbY&callback=initMap">
     </script>
         </main>
-
-
-
-
     </body>
 
 </html>

@@ -50,7 +50,7 @@
           <tr>
                   <td><?= $order->id ?></td>
                   <td><?= OrderController::loadCustomer($order->customer_id)->getFullName(); ?></td>
-                  <td> status </td>
+                  <td> <span class="label label-<?= $order->getStatus()["class"] ?>"><?= $order->getStatus()["Name"] ?></span> </td>
                   <td>
                       <a class="btn btn-primary" href="<?= HOME_DIR . "order?action=edit&id=". $order->id ?>" > Edit </a> 
                       <a class="btn btn-primary" href="<?= HOME_DIR . "order?action=edit&id=". $order->id ?>" > Print Order </a> 

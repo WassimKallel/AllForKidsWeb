@@ -81,6 +81,10 @@ class AdminBlogController
         $alert =  AdminAlertHandler::show("Product Info Updated Post",AlertType::Success);
         return ;
     }
+    public static function getBlogPostsCount()
+    {
+        return count(Post::countAllPosts());
+    }
 }
 
 

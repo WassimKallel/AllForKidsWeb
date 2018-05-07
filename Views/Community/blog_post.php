@@ -58,7 +58,7 @@ $comments = BlogController::getComments($post);
             <div class="blog-media">
               
               
-              <img src="//cdn.shopify.com/s/files/1/1608/0949/articles/blog-21.jpg?v=1480935447" />
+              <img src="<?= $post->getImage() ?>" />
               
             </div>
             <div class="blog-content">

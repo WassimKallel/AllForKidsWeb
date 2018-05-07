@@ -24,7 +24,7 @@ class OrderController {
     }
 
     public static function getOrdersCount() {
-        return Order::sql('SELECT count(*) as count FROM :table')[0]->count;
+        return Order::sql('SELECT count(*) as count FROM `:table`')[0]->count;
     }
     public static function handleCheckout() {    
         if(!isset($_POST["shipping_radio"]) || $_POST["shipping_radio"] == 0 ) {
