@@ -65,8 +65,10 @@ $total = 0;
                     <article class="header-middle">
                         <div class="container theme-container ">       
                             <!-- Logo -->
-                            <div class="logo hidden-xs col-md-3  col-sm-3">
-                                <a href="index-2.html"><img src="assets/img/logo/logo.png" alt="Baby Store"/></a>
+                            <div class="logo hidden-xs col-md-3  col-sm-3" style="    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 800;">
+                               ALL FOR KIDS
                             </div>
                             <!-- /Logo -->
 

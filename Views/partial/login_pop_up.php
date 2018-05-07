@@ -49,7 +49,7 @@
                                     <li>Save multiple shipping addresses</li>
                                     <li>View and track orders and more</li>
                                 </ul>
-                                <a href="#" class="pink-btn btn"> Create An Account </a>
+                                <a href="register" class="pink-btn btn"> Create An Account </a>
                             </div>
                         </div>
                     </div>
