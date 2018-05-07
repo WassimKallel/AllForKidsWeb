@@ -27,5 +27,14 @@ class User extends Model {
     public function getRole() {
         return Roles::search(intval($this->role));
     }
+
+    public function getAvatar() {
+		if($this->avatar_path == null) {
+			return DATA_URL . 'defaults/default-user.png';
+		} else {
+			return DATA_URL . $this->avatar_path;
+		}
+	}
+    
 }
 

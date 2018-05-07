@@ -75,7 +75,7 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                             <td class="post-avatar">
                                                 <div class="white-bg cart-img">
                                                     <a class="media-link" href="#">
-                                                        <img src="<?= DATA_URL . ForumController::getPostAuthor($post)->avatar_path ?>" alt="">
+                                                        <img src="<?= ForumController::getPostAuthor($post)->getAvatar() ?>" alt="">
                                                     </a> 
                                                 </div>
                                                 <div style="text-align: center;">
@@ -114,7 +114,7 @@ $currentTopic = ForumController::getThreadTopic($thread);
                                         <tr>
                                             <td class="post-avatar">
                                                 <div class="white-bg cart-img">
-                                                    <a class="media-link" href="#"><img src="<?=  DATA_URL . AuthenticationController::getCurrentUser()->avatar_path  ?>" alt=""></a> 
+                                                    <a class="media-link" href="#"><img src="<?=  AuthenticationController::getCurrentUser()->getAvatar()  ?>" alt=""></a> 
                                                 </div>
                                                 <div style="text-align: center;">
                                                 <p class="forum-user-name">

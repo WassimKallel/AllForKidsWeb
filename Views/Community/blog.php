@@ -84,7 +84,7 @@ else if(isset($_GET['search']) && !empty($_GET['search'])) {
 
                                 <div class="blog-box">
                                     <div class="blog-media">
-                                        <img src="assets/img/blog/post-2.jpg" alt="...">                      
+                                        <img src="<?= $post->getImage() ?>" alt="...">                      
                                         <div class="blog-new">
                                             <div class="blue-new-tag new-tag">
                                                 <a class="fa fa-picture-o" href="#"></a>

@@ -12,4 +12,13 @@ class Post extends Model{
 	public $creation_date;
 	public $image_path;
 	public $online;
+
+
+	public function getImage() {
+		if($this->image_path == null) {
+			return DATA_URL . 'defaults/default-blog.png';
+		} else {
+			return DATA_URL . $this->image_path;
+		}
+	}
 }
