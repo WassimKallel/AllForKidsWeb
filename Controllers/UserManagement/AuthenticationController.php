@@ -89,11 +89,11 @@ class AuthenticationController {
         $user_session->session_token = $token;
         $user_session->save();
     }
-    public function generateRandomString() {
+    public function generateRandomString($size = 20) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $string = '';
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < $size; ++$i) {
           $string .= $characters[rand(0, $charactersLength - 1)];
         }
         return $string;

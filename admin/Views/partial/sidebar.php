@@ -6,7 +6,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img  src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>" alt="Image not found"class="img-circle" >
+          <img  src="<?= $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>" alt="Image not found"class="img-circle" >
         </div>
         <div class="pull-left info">
           <p><?= AuthenticationController::getCurrentUser()->getFullName() ;?></p>

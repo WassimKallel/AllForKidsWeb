@@ -10,7 +10,7 @@ class BlogController {
     public static $limit = 6;
     public static function getPosts($offset = 0)
     {
-        return Post::sql("SELECT * from :table ORDER BY creation_date DESC LIMIT ? OFFSET ?;", array(BlogController::$limit, $offset));
+        return Post::sql("SELECT * from :table where online = 1  ORDER BY creation_date DESC LIMIT ? OFFSET ?;", array(BlogController::$limit, $offset));
     }
 
     public static function getAllPosts()

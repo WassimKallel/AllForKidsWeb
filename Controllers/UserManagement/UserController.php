@@ -39,6 +39,7 @@
             $user->first_name = $post_data["first_name"];
             $user->last_name = $post_data["last_name"];
             $user->email = $post_data["email"];
+            $user->phone = $post_data["phone"];
             $user->role = 0;
             $user->save();
             return true;

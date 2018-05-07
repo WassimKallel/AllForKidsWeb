@@ -1,8 +1,7 @@
 <?php
 include_once CONTROLLERS . "/UserManagement/UserController.php";
 include_once CONTROLLERS . "/OrderManagement/OrderController.php";
-include_once CONTROLLERS . "/ProductManagement/ProductController.php";
-include_once CONTROLLERS . "/ForumManagement/ForumController.php";
+include_once CONTROLLERS . "/StoreManagement/ProductController.php";
 include_once CONTROLLERS . "/BlogManagement/BlogController.php";
 
 
@@ -16,11 +15,18 @@ class DashboardController
         return count(UserController::getAllUsers());
     }
 
-    public static function getBlogPostsCount()
+    public static function getPostsCount()
     {
-        return BlogController::countAllPosts();
+        return count(Post::all());
     }
-
+    public static function getCommentsCount()
+    {
+        return count(Comment::all());
+    }
+    public static function getCustomersCount()
+    {
+        return count(User::retrieveByField("is_customer" , 1));
+    }
     public static function getProductsCount()
     {
         return ProductController::getProductsCount();

@@ -1,6 +1,8 @@
 <?php if (AuthenticationController::$is_logged_in ) {
     header("Location: .");
-} ?>
+} 
+unset($_SESSION["code"]);
+?>
  <?php 
         if (isset($_POST["register_submit"])) {
             include_once CONTROLLERS . "/UserManagement/UserController.php" ;
@@ -79,7 +81,19 @@
                                             <label class="form-label"> Email</label>
                                             <input type="email" name="email" placeholder="Email" class="form-control" required=""></div>
                                         </div>  
-                                        <div class="col-md-12 col-sm-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                            <label class="form-label"> Phone</label>
+                                            <input type="number" id="phone" name="phone" placeholder="Phone" class="form-control" required=""></div>
+                                        </div>  
+                                        <button style="margin-top:24px" id="send_verification" class="btn btn-primary col-md-3"> Send Verification </button>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label class="form-label"> Verification Code</label>
+                                            <input type="text" pattern="\d\d\d\d" maxlength="4" id="verification_code" placeholder="Verification Code" class="form-control" required=""></div>
+                                        </div>  
+                                        <button style="margin-top:24px; display:none" id="verify_button" class="btn btn-success col-md-3"> Verify Code </button>
+                                        <div style="display:none" id="register_submit" class="col-md-12 col-sm-12 test-right">
                                             <label class="pink-btn btn">
                                                 <input type="submit" value="Register" name="register_submit" >
                                             </label>                                            
