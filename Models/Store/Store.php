@@ -10,6 +10,12 @@ class Store extends Model {
     public $lon;
     public $lat;
     public $name;
-
+    public $active;
+    public function save() {
+        if(!$this->active) {
+            $this->active = 1;
+        }
+        parent::save();
+    }
 }
 
