@@ -1,4 +1,4 @@
-
+<?php $current_role = AuthenticationController::getCurrentUser()->role; ?>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -27,6 +27,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+        <?php if($current_role > Roles::User) { ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -34,12 +35,15 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          
           <ul class="treeview-menu">
             <li><a href="."><i class="fa fa-circle-o"></i> Main Dashboard </a></li>
             <li><a href="profile"><i class="fa fa-circle-o"></i> Profile</a></li>
           </ul>
         </li>
+          <?php  } ?>
 
+           <?php if($current_role >= Roles::Administrator) { ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-user"></i> <span>User Management</span>
@@ -52,7 +56,9 @@
             <li><a href="user?action=create"><i class="fa fa-circle-o"></i> Add User </a></li>
           </ul>
         </li>
+           <?php } ?>
 
+           <?php if($current_role >= Roles::CommunityManager) { ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Blog Management</span>
@@ -81,7 +87,8 @@
             <li><a href="moderation"><i class="fa fa-circle-o"></i> Moderation </a></li>
           </ul>
         </li>
-
+           <?php } ?>
+           <?php if($current_role >= Roles::Administrator) { ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Product Management</span>
@@ -122,6 +129,8 @@
             <li><a href="shipping_method?action=create"><i class="fa fa-circle-o"></i> Add shipping Method </a></li>
           </ul>
         </li>
+
+        <?php } ?>
       </ul>
     </section>
     <!-- /.sidebar -->

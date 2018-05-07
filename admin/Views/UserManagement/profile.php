@@ -48,22 +48,14 @@ $current_user = AuthenticationController::getCurrentUser();
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="<?php $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>" alt="Image not found">
+              <img class="profile-user-img img-responsive img-circle" src="<?= $GLOBALS["AllForKids"]["data_folder"] . $current_user->avatar_path ?>" alt="Image not found">
 
               <h3 class="profile-username text-center"><?= $current_user->getFullName(); ?></h3>
 
               <p class="text-muted text-center"><?= $current_user->getRole(); ?></p>
 
               <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Blog Posts</b> <a class="pull-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Customer Replies</b> <a class="pull-right">543</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Forum threads</b> <a class="pull-right">13,287</a>
-                </li>
+               
               </ul>
             </div>
             <!-- /.box-body -->
@@ -80,7 +72,7 @@ $current_user = AuthenticationController::getCurrentUser();
         
               <strong><i class=" margin-r-5"></i> Summury</strong>
 
-              <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis repudiandae fuga provident quibusdam saepe dolorum ut, asperiores perspiciatis excepturi. Sunt ut sint culpa! Quas enim fugiat quis tempore consequatur porro.</p>
+              <p class="text-muted"> Phone: <?= $current_user->phone ?></p>
             </div>
             <!-- /.box-body -->
           </div>

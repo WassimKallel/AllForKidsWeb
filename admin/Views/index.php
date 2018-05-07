@@ -41,10 +41,7 @@
 
 <?php include VIEWS . "/partial/header.php" ?>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
 <body class="hold-transition login-page">
-
-
 <div class="login-box">
   <div class="login-logo">
     <a href=""><b>All For Kids</b></a>
@@ -52,7 +49,11 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
-    
+    <?php if(isset($error) && $error) { ?>
+    <div class="alert alert-danger" role="alert">
+                                     <?= $error ?>
+                                </div>
+  <?php  } ?>
     <form action="" method="post">
       <div class="form-group has-feedback">
         <input type="text" name="username" class="form-control" placeholder="Username">
@@ -62,24 +63,15 @@
         <input name="password" type="password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Remember Me
-            </label>
-          </div>
-        </div>
+      <br>
         <!-- /.col -->
-        <div class="col-xs-4">
+        <div class="">
           <input type="submit" class="btn btn-primary btn-block btn-flat" name="login_submit" value="Sign In">
         </div>
         <!-- /.col -->
       </div>
     </form>
     <!-- /.social-auth-links -->
-
-    <a href="#">I forgot my password</a><br>
   </div>
   <!-- /.login-box-body -->
 </div>
