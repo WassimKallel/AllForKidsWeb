@@ -60,6 +60,7 @@ class AuthenticationController {
     public static function logout() {
         $is_logged_in = false;
         UserSession::deleteByField("user_id",AuthenticationController::$current_user->id);
+        unset($_SESSION["cart"]);
         
     }
     public static function hash_password($password) {
@@ -88,7 +89,7 @@ class AuthenticationController {
         $user_session->session_token = $token;
         $user_session->save();
     }
-    private function generateRandomString() {
+    public function generateRandomString() {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $string = '';

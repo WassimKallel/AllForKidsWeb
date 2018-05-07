@@ -67,6 +67,7 @@ class AdminUserController
                             $field->default_value = $_POST[$field->Name];
                         }
                     }
+            
                     $user->password =  AuthenticationController::hash_password($user->password);
                     $user->save();
           

@@ -9,7 +9,7 @@ class LineItem extends Model {
     public $order_id;
     public $product_id;
     public $quantity;
-    public $total_ht;
+    public $total;
     public $vat;
 
 }

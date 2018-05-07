@@ -69,7 +69,6 @@
                                                 <ul class="product-thumbnails">
                                                     <li  data-slide-to="0" data-target="#main-slider">
                                                         <a href="#"><img class="img-responsive" alt="Image Not Found" src="<?= DATA_URL . $product->image ?>"></a></li>
-                                                    
                                                 </ul>  
                                             </div>    
                                             <div class="col-md-10 col-sm-9  col-xs-9">
@@ -113,7 +112,7 @@
                              
                                                     <div class="form-group selectpicker-wrapper">
                                                         <label>QTY</label>
-                                                        <select title="Looking to Buy" data-toggle="tooltip" data-width="100%" data-live-search="true" class="selectpicker input-price bs-select-hidden">
+                                                        <select id="quantity_select" title="Looking to Buy" data-toggle="tooltip" data-width="100%" data-live-search="true" class="selectpicker input-price bs-select-hidden">
                                                             <option class="bs-title-option" value="1">01</option>
                                                             <option value="1" >01</option>
                                                             <option value="2">02</option>
@@ -129,8 +128,7 @@
                                             <p><?= $product->short_description ?></p>
                                         </div>
                                         <div class="add-to-cart">
-                                            <a class="blue-btn btn" href="#"> <i class="fa fa-shopping-cart white-color"></i> Add to Cart</a>
-
+                                        <a class="blue-btn btn" onclick="addToCart(<?= $product->id ?>) ;return;"> <i class="fa fa-shopping-cart white-color"></i> Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +218,7 @@
                                                         <h4 class="pink-btn-small"> <?= $p->name  ?> DT HT </h4>
                                                     </div>
                                                     <div class="product-overlay">
-                                                        <a href="#" class="addcart blue-background fa fa-shopping-cart"></a>                                                                
+                                                        <a href="" onclick="addToCart(<?= $product->id ?>) ;return;" class="addcart blue-background fa fa-shopping-cart"></a>                                                                
                                                         <a class="preview pink-background fa fa-eye" href="product?id=<?= $p->id ?> "> </a>
                                                     </div>
                                                 </div>
@@ -286,7 +284,7 @@
                                                                 </span>
                                                                 <img src="<?= DATA_URL . $p->image ?>" alt="product-img">                                                            
                                                                 <div class="product-overlay">
-                                                                    <a class="addcart blue-background fa fa-shopping-cart" href="#"></a>                                                                
+                                                                    <a onclick="addToCart(<?= $product->id ?>) ;return;" class="addcart blue-background fa fa-shopping-cart" href="#"></a>                                                                
                                                                     <a class="preview pink-background fa fa-eye" href="product?id=<?= $p->id ?>" > </a>
                                                                 </div>
                                                             </div>
