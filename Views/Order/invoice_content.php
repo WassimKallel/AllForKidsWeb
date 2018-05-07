@@ -9,7 +9,7 @@
         $line_items = ShoppingCartController::getLineItems($order->id);
 		$customer = User::retrieveByPK($order->customer_id);
 		if($order->shipping_method_id != 0) {
-			$shipping_method_price = OrderController::getShippingMethod($order->shipping_method_id); 
+			$shipping_method_price = OrderController::getShippingMethod($order->shipping_method_id)->extra_fee; 
 		}else {
 			$shipping_method_price = 0;
 		}

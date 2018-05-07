@@ -4484,3 +4484,14 @@ button.close-btn:hover,button.close-btn:focus {
 .cart-img {
     padding: 0px !important;
 }
+
+.product-media img {
+    display: block;
+    height: 200px;
+    margin: auto;
+}
+.cart-table .product-media img {
+    display: block;
+    height: 50px;
+    margin: auto;
+}

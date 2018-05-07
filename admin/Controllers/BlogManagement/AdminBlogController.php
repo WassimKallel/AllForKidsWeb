@@ -66,7 +66,7 @@ class AdminBlogController
                             $post->{$field->Name} =  $d->format("Y-m-d H:i:s");
                         }
                     }
-                    $post->password =  AuthenticationController::hash_password($post->password);
+                    
                     $post->save();
           
                 } else {

@@ -37,7 +37,7 @@
             new FormField("content", FieldType::HtmlContent, "Content", $_GET["action"] == "create" ? "" : $post->content,$required = true),
             new FormField("user_id", FieldType::StringEnumeration, "Author", $_GET["action"] == "create" ? AuthenticationController::getCurrentUser()->id : $post->user_id, $required = true, $user_id_field),
             new FormField("creation_date", FieldType::Date, "Creation Date", $_GET["action"] == "create" ? date_format(new DateTime("now"), 'Y-m-d') : date_format(date_create($post->creation_date), 'Y-m-d'), $required = true),
-            new FormField("image_path", FieldType::File, "Image ",  $_GET["action"] != "create" ? $post->image_path : ""),
+            new FormField("image_path", FieldType::Image, "Image ",  $_GET["action"] != "create" ? $post->image_path : ""),
             new FormField("online", FieldType::StringEnumeration, "Status", $_GET["action"] == "create" ? "" : $post->online, $required = true, [
               "Published" => 1,
               "Not published"=> 0,

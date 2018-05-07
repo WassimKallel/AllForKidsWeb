@@ -7,7 +7,7 @@
         <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Baby Store</title>
+        <title>All For Kids</title>
 
         <!-- Favicon -->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.html">
@@ -23,8 +23,5 @@
         <link href="assets/plugins/jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/subscribe-better.css" rel="stylesheet" type="text/css">
         <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <!--[if lt IE 9]>
-                <script src="assets/plugins/iesupport/html5shiv.js"></script>
-                <script src="assets/plugins/iesupport/respond.js"></script>
-                <![endif]-->
+
     </head>

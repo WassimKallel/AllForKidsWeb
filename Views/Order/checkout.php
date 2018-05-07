@@ -88,7 +88,7 @@ if(isset($_POST["checkout_submit"])) {
                                                 <tr>
                                                     <td class="image">
                                                         <div class="white-bg cart-img">
-                                                            <a class="media-link" href="#"><img src="assets/img/cart/cart-1.png" alt=""></a> 
+                                                            <a class="media-link" href="#"><img src="<?= DATA_URL . $product->image ?>" alt=""></a> 
                                                         </div>
                                                     </td>
                                                     <td class="description">
