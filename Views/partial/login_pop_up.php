@@ -9,7 +9,7 @@
                                 <h2 class="section-title">
                                     <span>
                                         <span class="funky-font blue-tag">Welcome</span> 
-                                        <span class="italic-font">to the Baby & kids Store</span>
+                                        <span class="italic-font">All For Kids</span>
                                     </span>
                                 </h2>  
                                 <h3 class="sub-title">Sign in Or Register</h3>
